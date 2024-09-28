@@ -33,34 +33,31 @@ class Simulation:
         self.rejected_calls = 0             # number of rejected calls
         self.time = 0                       # current time
 
+        self.time_intervals = []
         self.histogram = {}
+
         self.estimator = 0
 
-    def call_arrival(self):
+    def call_arrival_exponencial(self):
 
         c = - math.log(random.uniform(0,1)) / self.lambda_  # -1/lambda * ln(u) ; u ~ U(0,1)
-        c = round(c, 3)                                     
 
         next_arrival = self.time + c                        # generate next arrival time
         self.events.append(Event("arrival", next_arrival))  # add next arrival event
 
-        if c in self.histogram.keys():                      # update histogram ; check if time value already exists
-            self.histogram[c] += 1
-        else:
-            self.histogram[c] = 1
+        self.time_intervals.append(c)                       # store time interval
 
         if self.active_calls < self.max_resources:          # check if there are resources available
             
             self.active_calls += 1                          # update number of active calls
 
             s = - math.log(random.uniform(0,1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
-            s = round(s, 3)
 
             next_departure = self.time + s                          # generate next departure time
             self.events.append(Event("departure", next_departure))  # add next departure event
 
         else:
-            self.rejected_calls += 1                     
+            self.rejected_calls += 1
 
     def call_departure(self):
 
@@ -69,7 +66,7 @@ class Simulation:
 
     def run(self):
 
-        # Simulation parameters
+        # Print simulation parameters
         print(f'Simulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}\n')
         print(f'Stopping condition: {self.samples_nr} samples\n') if self.mode == 0 else print(f'Stopping condition: {self.T} s\n')
         print(">> Simulation started")
@@ -99,7 +96,7 @@ class Simulation:
             event = self.events.pop(0)                      # get next event
 
             if event.event_type == "arrival":               # process event
-                self.call_arrival()
+                self.call_arrival_exponencial()
             else:
                 self.call_departure()
 
@@ -109,9 +106,27 @@ class Simulation:
             self.time = event.time
             condition = (self.samples_nr > 0) if self.mode == 0 else (self.time < self.T)
 
-        self.estimator = sum([k*v for k,v in self.histogram.items()]) / sum(self.histogram.values())
+        # Generate histogram
+        delta = 1/5 * 1/self.lambda_
+        v_max =   5 * 1/self.lambda_
+        self.histogram = {i: 0 for i in range(0, int(v_max/delta)+1)}   # initialize histogram
+
+        for interval in self.time_intervals:
+            if interval > v_max:
+                continue
+            index = int(interval/delta)
+            self.histogram[index] += 1
+
+        n = len(self.histogram)
+        self.histogram[n] = len(self.time_intervals)                    # store no. of samples
+
+        self.histogram = {round(k*delta, 3): v for k,v in self.histogram.items()}   # change keys to represent intervals
+
+        # Calculate estimator
+        self.estimator = sum(self.time_intervals) / len(self.time_intervals)
         self.estimator = round(self.estimator, 3)
 
+        # Print results
         print(">> Simulation ended")
         print(f'Average time between the arrival of events: {self.estimator} (expected: {1/self.lambda_})')
         print("Number of rejected calls: ", self.rejected_calls)
@@ -121,7 +136,9 @@ if __name__ == "__main__":
     sim = Simulation(lambda_=5, samples_nr=5000)
     sim.run()
 
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.01)
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
     pyplot.show()
 
     
