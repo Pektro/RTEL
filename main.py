@@ -19,48 +19,48 @@ class Event:
 
 class Simulation:
 
-    def __init__(self, lambda_=10, miu_=0.5, samples_nr=1000, T=1000, max_resources=500):
-        self.lambda_ = lambda_
-        self.miu_ = miu_
-        self.samples_nr = samples_nr
-        self.T = T
-        self.max_resources = max_resources
+    def __init__(self, lambda_=10, miu_=0.5, samples_nr=1000, T=1000, max_resources=1000, mode=0):
 
-        self.events = []
-        self.active_calls = 0
-        self.rejected_calls = 0
+        self.lambda_ = lambda_              # arrival rate
+        self.miu_ = miu_                    # service rate  
+        self.samples_nr = samples_nr        # desired number of samples
+        self.T = T                          # simulation time period
+        self.max_resources = max_resources  # maximum number of system resources
+        self.mode = mode                    # stopping condition: 0 - No. of samples, 1 - Time period
+
+        self.events = []                    # list of events
+        self.active_calls = 0               # number of active calls
+        self.rejected_calls = 0             # number of rejected calls
+        self.time = 0                       # current time
 
         self.histogram = {}
-        self.time_plot = {}
         self.estimator = 0
-        self.estimator = 0
-        self.time = 0
 
     def call_arrival(self):
 
-        c = - math.log(random.uniform(0,1)) / self.lambda_
-        c = round(c, 3)
-        if c in self.histogram.keys():
+        c = - math.log(random.uniform(0,1)) / self.lambda_  # -1/lambda * ln(u) ; u ~ U(0,1)
+        c = round(c, 3)                                     
+
+        next_arrival = self.time + c                        # generate next arrival time
+        self.events.append(Event("arrival", next_arrival))  # add next arrival event
+
+        if c in self.histogram.keys():                      # update histogram ; check if time value already exists
             self.histogram[c] += 1
         else:
             self.histogram[c] = 1
 
-        next_arrival = self.time + c
-        self.events.append(Event("arrival", next_arrival))
-        
-        #sort events by time
-        self.events.sort(key=lambda event: event.time)
+        if self.active_calls < self.max_resources:          # check if there are resources available
+            
+            self.active_calls += 1                          # update number of active calls
 
-        self.time_plot[next_arrival] = 1
+            s = - math.log(random.uniform(0,1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
+            s = round(s, 3)
 
-        if self.active_calls < self.max_resources:
-            self.active_calls += 1
-            next_departure = self.time - math.log(random.uniform(0,1)) / self.miu_
-            self.events.append(Event("departure", next_departure))
-            self.events.sort(key=lambda x: x.time)
-            self.time_plot[next_departure] = 2
+            next_departure = self.time + s                          # generate next departure time
+            self.events.append(Event("departure", next_departure))  # add next departure event
+
         else:
-            self.rejected_calls += 1
+            self.rejected_calls += 1                     
 
     def call_departure(self):
 
@@ -71,6 +71,7 @@ class Simulation:
 
         # Simulation parameters
         print(f'Simulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}\n')
+        print(f'Stopping condition: {self.samples_nr} samples\n') if self.mode == 0 else print(f'Stopping condition: {self.T} s\n')
         print(">> Simulation started")
 
         # Generate random number of active calls
@@ -79,8 +80,8 @@ class Simulation:
         i = self.active_calls
         time = 0
 
-        for j in range(i):
-            s = - math.log(random.uniform(0,1)) / self.miu_
+        for j in range(i):                                      # starts the system with i active calls
+            s = - math.log(random.uniform(0,1)) / self.miu_     
             time += s
             next_departure = time
             self.events.append(Event("departure", next_departure))
@@ -90,17 +91,23 @@ class Simulation:
         self.events.append(Event("arrival", next_arrival))  
         self.events.sort(key=lambda event: event.time)
 
-        # Run simulation
-        while self.samples_nr + i > 0:
-            event = self.events.pop(0)
-            self.time = event.time
+        condition = (self.samples_nr + i > 0) if self.mode == 0 else (self.time < self.T)
 
-            if event.event_type == "arrival":
+        # Run simulation
+        while condition:
+            
+            event = self.events.pop(0)                      # get next event
+
+            if event.event_type == "arrival":               # process event
                 self.call_arrival()
             else:
                 self.call_departure()
 
+            self.events.sort(key=lambda event: event.time)  # sort events by time
+
             self.samples_nr -= 1
+            self.time = event.time
+            condition = (self.samples_nr > 0) if self.mode == 0 else (self.time < self.T)
 
         self.estimator = sum([k*v for k,v in self.histogram.items()]) / sum(self.histogram.values())
         self.estimator = round(self.estimator, 3)
@@ -111,11 +118,10 @@ class Simulation:
 
 if __name__ == "__main__":
 
-    sim = Simulation(lambda_=5, samples_nr=2000)
+    sim = Simulation(lambda_=5, samples_nr=5000)
     sim.run()
 
     hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.01)
-    
     pyplot.show()
 
     
