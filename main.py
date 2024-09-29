@@ -8,14 +8,17 @@
 #    + histogram representing the intervals between the arrival of events 
 #    + estimator of the average time between the arrival of events 
 
+
 import math
 import random
 from matplotlib import pyplot
+
 
 class Event:
     def __init__(self, event_type, time):
         self.event_type = event_type
         self.time = time
+
 
 class Simulation:
 
@@ -40,24 +43,56 @@ class Simulation:
 
     def call_arrival_exponencial(self):
 
-        c = - math.log(random.uniform(0,1)) / self.lambda_  # -1/lambda * ln(u) ; u ~ U(0,1)
+        c = - math.log(random.uniform(0, 1)) / self.lambda_         # -1/lambda * ln(u) ; u ~ U(0,1)
 
-        next_arrival = self.time + c                        # generate next arrival time
-        self.events.append(Event("arrival", next_arrival))  # add next arrival event
+        next_arrival = self.time + c                                # generate next arrival time
+        self.events.append(Event("arrival", next_arrival))          # add next arrival event
 
-        self.time_intervals.append(c)                       # store time interval
+        self.time_intervals.append(c)                               # store time interval
 
-        if self.active_calls < self.max_resources:          # check if there are resources available
+        if self.active_calls < self.max_resources:                  # check if there are resources available
             
-            self.active_calls += 1                          # update number of active calls
+            self.active_calls += 1                                  # update number of active calls
 
-            s = - math.log(random.uniform(0,1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
+            s = - math.log(random.uniform(0, 1)) / self.miu_        # -1/miu * ln(u) ; u ~ U(0,1)
 
             next_departure = self.time + s                          # generate next departure time
             self.events.append(Event("departure", next_departure))  # add next departure event
 
         else:
             self.rejected_calls += 1
+
+    def call_arrival_poisson(self):
+        delta = 0.001                                               # time interval for Poisson process simulation
+        last_event_time = self.time                                 # store last event time as the current time
+
+        while True:
+            self.time += delta                                      # increment time by delta at each try
+
+            u = random.uniform(0, 1)                                # generate a random number to check if an event occurs
+
+            if u < self.lambda_ * delta:                            # check if event occurs
+                next_arrival = self.time                            # current time becomes the arrival time
+                self.events.append(Event("arrival", next_arrival))
+                
+                interval = next_arrival - last_event_time           # record the time interval since the last event
+                self.time_intervals.append(interval)
+
+                last_event_time = next_arrival                      # update the last event time to the current event time
+                break
+
+        if self.active_calls < self.max_resources:                  # check if there are resources available
+
+            self.active_calls += 1                                  # update number of active calls
+
+            s = -math.log(random.uniform(0, 1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
+
+            next_departure = self.time + s                          # generate next departure time
+            self.events.append(Event("departure", next_departure))  # add next departure event
+
+        else:
+            self.rejected_calls += 1
+
 
     def call_departure(self):
 
@@ -78,13 +113,13 @@ class Simulation:
         time = 0
 
         for j in range(i):                                      # starts the system with i active calls
-            s = - math.log(random.uniform(0,1)) / self.miu_     
+            s = - math.log(random.uniform(0, 1)) / self.miu_     
             time += s
             next_departure = time
             self.events.append(Event("departure", next_departure))
 
         # Generate first arrival
-        next_arrival = self.time - math.log(random.uniform(0,1)) / self.lambda_
+        next_arrival = self.time - math.log(random.uniform(0, 1)) / self.lambda_
         self.events.append(Event("arrival", next_arrival))  
         self.events.sort(key=lambda event: event.time)
 
@@ -96,7 +131,11 @@ class Simulation:
             event = self.events.pop(0)                      # get next event
 
             if event.event_type == "arrival":               # process event
-                self.call_arrival_exponencial()
+                if t == 0:
+                    self.call_arrival_exponencial()
+                else:
+                    self.call_arrival_poisson()
+
             else:
                 self.call_departure()
 
@@ -131,8 +170,10 @@ class Simulation:
         print(f'Average time between the arrival of events: {self.estimator} (expected: {1/self.lambda_})')
         print("Number of rejected calls: ", self.rejected_calls)
 
+
 if __name__ == "__main__":
 
+    t = 0
     sim = Simulation(lambda_=5, samples_nr=5000)
     sim.run()
 
@@ -141,4 +182,11 @@ if __name__ == "__main__":
     hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
     pyplot.show()
 
-    
+    t = 1
+    sim = Simulation(lambda_=5, samples_nr=5000)
+    sim.run()
+
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.show()
