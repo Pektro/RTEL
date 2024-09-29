@@ -22,26 +22,27 @@ class Event:
 
 class Simulation:
 
-    def __init__(self, lambda_=10, miu_=0.5, samples_nr=1000, T=1000, max_resources=1000, mode=0):
+    def __init__(self, lambda_=10, miu_=0.5, samples_nr=1000, T=1000, max_resources=1000, stop_condition=0, mode="exponential"):
 
-        self.lambda_ = lambda_              # arrival rate
-        self.miu_ = miu_                    # service rate  
-        self.samples_nr = samples_nr        # desired number of samples
-        self.T = T                          # simulation time period
-        self.max_resources = max_resources  # maximum number of system resources
-        self.mode = mode                    # stopping condition: 0 - No. of samples, 1 - Time period
+        self.lambda_ = lambda_                  # arrival rate
+        self.miu_ = miu_                        # service rate  
+        self.samples_nr = samples_nr            # desired number of samples
+        self.T = T                              # simulation time period
+        self.max_resources = max_resources      # maximum number of system resources
+        self.stop_condition = stop_condition    # stopping condition: 0 - No. of samples, 1 - Time period
+        self.mode = mode                        # mode of simulation: exponential, poisson
 
-        self.events = []                    # list of events
-        self.active_calls = 0               # number of active calls
-        self.rejected_calls = 0             # number of rejected calls
-        self.time = 0                       # current time
+        self.events = []                        # list of events
+        self.active_calls = 0                   # number of active calls
+        self.rejected_calls = 0                 # number of rejected calls
+        self.time = 0                           # current time
 
         self.time_intervals = []
         self.histogram = {}
 
         self.estimator = 0
 
-    def call_arrival_exponencial(self):
+    def call_arrival_exponential(self):
 
         c = - math.log(random.uniform(0, 1)) / self.lambda_         # -1/lambda * ln(u) ; u ~ U(0,1)
 
@@ -63,6 +64,7 @@ class Simulation:
             self.rejected_calls += 1
 
     def call_arrival_poisson(self):
+
         delta = 0.001                                               # time interval for Poisson process simulation
         last_event_time = self.time                                 # store last event time as the current time
 
@@ -102,7 +104,7 @@ class Simulation:
     def run(self):
 
         # Print simulation parameters
-        print(f'Simulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}\n')
+        print(f'Simulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}, mode={self.mode}\n')
         print(f'Stopping condition: {self.samples_nr} samples\n') if self.mode == 0 else print(f'Stopping condition: {self.T} s\n')
         print(">> Simulation started")
 
@@ -131,8 +133,8 @@ class Simulation:
             event = self.events.pop(0)                      # get next event
 
             if event.event_type == "arrival":               # process event
-                if t == 0:
-                    self.call_arrival_exponencial()
+                if self.mode == "exponential":
+                    self.call_arrival_exponential()
                 else:
                     self.call_arrival_poisson()
 
@@ -173,8 +175,7 @@ class Simulation:
 
 if __name__ == "__main__":
 
-    t = 0
-    sim = Simulation(lambda_=5, samples_nr=5000)
+    sim = Simulation(lambda_=5, samples_nr=5000, mode="exponential")
     sim.run()
 
     events_num = sim.histogram.popitem()        # remove last element from histogram
@@ -182,8 +183,7 @@ if __name__ == "__main__":
     hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
     pyplot.show()
 
-    t = 1
-    sim = Simulation(lambda_=5, samples_nr=5000)
+    sim = Simulation(lambda_=5, samples_nr=5000, mode="poisson")
     sim.run()
 
     events_num = sim.histogram.popitem()        # remove last element from histogram
