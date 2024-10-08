@@ -22,7 +22,7 @@ class Event:
 
 class Simulation:
 
-    def __init__(self, lambda_=10, miu_=0.5, samples_nr=1000, T=1000, max_resources=1000, stop_condition=0, mode="exponential"):
+    def __init__(self, lambda_=10, miu_=2, samples_nr=1000, T=1000, max_resources=500, stop_condition=0, mode="exponential"):
 
         self.lambda_ = lambda_                  # arrival rate
         self.miu_ = miu_                        # service rate  
@@ -105,7 +105,7 @@ class Simulation:
 
         # Print simulation parameters
         print(f'Simulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}, mode={self.mode}\n')
-        print(f'Stopping condition: {self.samples_nr} samples\n') if self.mode == 0 else print(f'Stopping condition: {self.T} s\n')
+        print(f'Stopping condition: {self.samples_nr} samples\n') if self.stop_condition == 0 else print(f'Stopping condition: {self.T} s\n')
         print(">> Simulation started")
 
         # Generate random number of active calls
@@ -125,11 +125,14 @@ class Simulation:
         self.events.append(Event("arrival", next_arrival))  
         self.events.sort(key=lambda event: event.time)
 
-        condition = (self.samples_nr + i > 0) if self.mode == 0 else (self.time < self.T)
+        condition = (self.samples_nr + i > 0) if self.stop_condition == 0 else (self.time < self.T)
 
         # Run simulation
         while condition:
             
+            # if self.samples_nr%100 == 0:
+            #     print(f'Number of samples left: {self.samples_nr}')
+
             event = self.events.pop(0)                      # get next event
 
             if event.event_type == "arrival":               # process event
@@ -137,15 +140,15 @@ class Simulation:
                     self.call_arrival_exponential()
                 else:
                     self.call_arrival_poisson()
+                self.samples_nr -= 1
 
             else:
                 self.call_departure()
 
             self.events.sort(key=lambda event: event.time)  # sort events by time
 
-            self.samples_nr -= 1
             self.time = event.time
-            condition = (self.samples_nr > 0) if self.mode == 0 else (self.time < self.T)
+            condition = (self.samples_nr > 0) if self.stop_condition == 0 else (self.time < self.T)
 
         # Generate histogram
         delta = 1/5 * 1/self.lambda_
@@ -165,7 +168,6 @@ class Simulation:
 
         # Calculate estimator
         self.estimator = sum(self.time_intervals) / len(self.time_intervals)
-        self.estimator = round(self.estimator, 3)
 
         # Print results
         print(">> Simulation ended")
@@ -175,18 +177,75 @@ class Simulation:
 
 if __name__ == "__main__":
 
-    sim = Simulation(lambda_=5, samples_nr=5000, mode="exponential")
+    sim = Simulation(lambda_=5, samples_nr=50, mode="exponential")
     sim.run()
-
     events_num = sim.histogram.popitem()        # remove last element from histogram
-
     hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    #add caption
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(a) Exponential distribution, 50 samples')
     pyplot.show()
 
-    sim = Simulation(lambda_=5, samples_nr=5000, mode="poisson")
+    sim = Simulation(lambda_=5, samples_nr=100, mode="exponential")
     sim.run()
-
     events_num = sim.histogram.popitem()        # remove last element from histogram
-
     hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(b) Exponential distribution, 100 samples')
+    pyplot.show()
+
+    sim = Simulation(lambda_=5, samples_nr=1000, mode="exponential")
+    sim.run()
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(c) Exponential distribution, 1000 samples')
+    pyplot.show()
+
+    sim = Simulation(lambda_=5, samples_nr=10000, mode="exponential")
+    sim.run()
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(d) Exponential distribution, 10000 samples')
+    pyplot.show()
+
+    sim = Simulation(lambda_=5, samples_nr=50, mode="poisson")
+    sim.run()
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(a) Poisson distribution, 50 samples')
+    pyplot.show()
+
+    sim = Simulation(lambda_=5, samples_nr=100, mode="poisson")
+    sim.run()
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(b) Poisson distribution, 50 samples')
+    pyplot.show()
+
+    sim = Simulation(lambda_=5, samples_nr=1000, mode="poisson")
+    sim.run()
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(c) Poisson distribution, 1000 samples')
+    pyplot.show()
+
+    sim = Simulation(lambda_=5, samples_nr=10000, mode="poisson")
+    sim.run()
+    events_num = sim.histogram.popitem()        # remove last element from histogram
+    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title('(d) Poisson distribution, 10000 samples')
     pyplot.show()
