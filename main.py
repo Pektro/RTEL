@@ -22,7 +22,7 @@ class Event:
 
 class Simulation:
 
-    def __init__(self, lambda_=10, miu_=2, samples_nr=1000, T=1000, max_resources=500, stop_condition=0, mode="exponential"):
+    def __init__(self, lambda_=200, miu_=125, samples_nr=500, T=1000, max_resources=5, stop_condition=0, mode="exponential"):
 
         self.lambda_ = lambda_                  # arrival rate
         self.miu_ = miu_                        # service rate  
@@ -63,37 +63,37 @@ class Simulation:
         else:
             self.rejected_calls += 1
 
-    def call_arrival_poisson(self):
+    # def call_arrival_poisson(self):
 
-        delta = 0.001                                               # time interval for Poisson process simulation
-        last_event_time = self.time                                 # store last event time as the current time
+    #     delta = 0.001                                               # time interval for Poisson process simulation
+    #     last_event_time = self.time                                 # store last event time as the current time
 
-        while True:
-            self.time += delta                                      # increment time by delta at each try
+    #     while True:
+    #         self.time += delta                                      # increment time by delta at each try
 
-            u = random.uniform(0, 1)                                # generate a random number to check if an event occurs
+    #         u = random.uniform(0, 1)                                # generate a random number to check if an event occurs
 
-            if u < self.lambda_ * delta:                            # check if event occurs
-                next_arrival = self.time                            # current time becomes the arrival time
-                self.events.append(Event("arrival", next_arrival))
+    #         if u < self.lambda_ * delta:                            # check if event occurs
+    #             next_arrival = self.time                            # current time becomes the arrival time
+    #             self.events.append(Event("arrival", next_arrival))
                 
-                interval = next_arrival - last_event_time           # record the time interval since the last event
-                self.time_intervals.append(interval)
+    #             interval = next_arrival - last_event_time           # record the time interval since the last event
+    #             self.time_intervals.append(interval)
 
-                last_event_time = next_arrival                      # update the last event time to the current event time
-                break
+    #             last_event_time = next_arrival                      # update the last event time to the current event time
+    #             break
 
-        if self.active_calls < self.max_resources:                  # check if there are resources available
+    #     if self.active_calls < self.max_resources:                  # check if there are resources available
 
-            self.active_calls += 1                                  # update number of active calls
+    #         self.active_calls += 1                                  # update number of active calls
 
-            s = -math.log(random.uniform(0, 1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
+    #         s = -math.log(random.uniform(0, 1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
 
-            next_departure = self.time + s                          # generate next departure time
-            self.events.append(Event("departure", next_departure))  # add next departure event
+    #         next_departure = self.time + s                          # generate next departure time
+    #         self.events.append(Event("departure", next_departure))  # add next departure event
 
-        else:
-            self.rejected_calls += 1
+    #     else:
+    #         self.rejected_calls += 1
 
 
     def call_departure(self):
@@ -104,42 +104,42 @@ class Simulation:
     def run(self):
 
         # Print simulation parameters
-        print(f'Simulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}, mode={self.mode}\n')
-        print(f'Stopping condition: {self.samples_nr} samples\n') if self.stop_condition == 0 else print(f'Stopping condition: {self.T} s\n')
-        print(">> Simulation started")
+        #print(f'\n\nSimulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}, mode={self.mode}')
+        #print(f'Stopping condition: {self.samples_nr} samples\n') if self.stop_condition == 0 else print(f'Stopping condition: {self.T} s\n')
+        #print(">> Simulation started")
 
-        # Generate random number of active calls
-        self.active_calls = random.randint(1, int(self.samples_nr/5))
-        print(f'System started with: {self.active_calls} active calls\n')
-        i = self.active_calls
-        time = 0
+        # # Generate random number of active calls
+        # self.active_calls = random.randint(1, int(self.samples_nr/5))
+        # print(f'System started with: {self.active_calls} active calls\n')
+        # i = self.active_calls
+        # time = 0
 
-        for j in range(i):                                      # starts the system with i active calls
-            s = - math.log(random.uniform(0, 1)) / self.miu_     
-            time += s
-            next_departure = time
-            self.events.append(Event("departure", next_departure))
+        # for j in range(i):                                      # starts the system with i active calls
+        #     s = - math.log(random.uniform(0, 1)) / self.miu_     
+        #     time += s
+        #     next_departure = time
+        #     self.events.append(Event("departure", next_departure))
 
         # Generate first arrival
         next_arrival = self.time - math.log(random.uniform(0, 1)) / self.lambda_
         self.events.append(Event("arrival", next_arrival))  
         self.events.sort(key=lambda event: event.time)
 
-        condition = (self.samples_nr + i > 0) if self.stop_condition == 0 else (self.time < self.T)
+        condition = (self.samples_nr > 0) if self.stop_condition == 0 else (self.time < self.T)
 
         # Run simulation
         while condition:
-            
-            # if self.samples_nr%100 == 0:
-            #     print(f'Number of samples left: {self.samples_nr}')
 
             event = self.events.pop(0)                      # get next event
+            self.time = event.time
+
+            #print(f'{round(event.time, 3)}: {event.event_type}, active calls: {self.active_calls}')
 
             if event.event_type == "arrival":               # process event
                 if self.mode == "exponential":
                     self.call_arrival_exponential()
-                else:
-                    self.call_arrival_poisson()
+                # else:
+                #     self.call_arrival_poisson()
                 self.samples_nr -= 1
 
             else:
@@ -147,7 +147,6 @@ class Simulation:
 
             self.events.sort(key=lambda event: event.time)  # sort events by time
 
-            self.time = event.time
             condition = (self.samples_nr > 0) if self.stop_condition == 0 else (self.time < self.T)
 
         # Generate histogram
@@ -173,79 +172,43 @@ class Simulation:
         print(">> Simulation ended")
         print(f'Average time between the arrival of events: {self.estimator} (expected: {1/self.lambda_})')
         print("Number of rejected calls: ", self.rejected_calls)
+        print("Number of samples: ", len(self.time_intervals))
+        print("Block probability: ", round(self.rejected_calls / len(self.time_intervals)*100, 3))
 
 
 if __name__ == "__main__":
 
-    sim = Simulation(lambda_=5, samples_nr=50, mode="exponential")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
+    # Run simulation n times
+    n = 30
+    samples_nr = []
+    rejected_calls = []
+    block_prob = []
+    for i in range(n):
+        print(f'\n\nSimulation {i+1}')
+        sim = Simulation(mode="exponential", stop_condition=1, T=100)
+        sim.run()
+        samples_nr.append(len(sim.time_intervals))
+        rejected_calls.append(sim.rejected_calls)
+        block_prob.append(sim.rejected_calls / len(sim.time_intervals)*100)
+
+    # statistics
+    average_prob = sum(block_prob)/n
+    standard_dev = math.sqrt(sum([(x - average_prob)**2 for x in block_prob])/(n-1))
+    standard_error = standard_dev / math.sqrt(n)        
+    confidence_interval = 1.96 * standard_error              # 95% confidence interval
+
+    print(f'\n\nAverage number of samples: {round(sum(samples_nr)/n, 2)}')
+    print(f'Average number of rejected calls: {round(sum(rejected_calls)/n, 2)}')
+    print(f'Average block probability: {round(average_prob, 3)}')
+    print(f'Standard deviation: {round(standard_dev, 3)}')
+    print(f'Standard error: {round(standard_error, 3)}')
+    print(f'Confidence interval: {round(average_prob, 3)} +- {round(confidence_interval, 3)}')
+        
+    # events_num = sim.histogram.popitem()        # remove last element from histogram
+    # hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
     #add caption
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(a) Exponential distribution, 50 samples')
-    pyplot.show()
+    # pyplot.xlabel('Time interval')
+    # pyplot.ylabel('Frequency')
+    # pyplot.title('(a) Exponential distribution, 50 samples')
+    # pyplot.show()
 
-    sim = Simulation(lambda_=5, samples_nr=100, mode="exponential")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(b) Exponential distribution, 100 samples')
-    pyplot.show()
-
-    sim = Simulation(lambda_=5, samples_nr=1000, mode="exponential")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(c) Exponential distribution, 1000 samples')
-    pyplot.show()
-
-    sim = Simulation(lambda_=5, samples_nr=10000, mode="exponential")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(d) Exponential distribution, 10000 samples')
-    pyplot.show()
-
-    sim = Simulation(lambda_=5, samples_nr=50, mode="poisson")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(a) Poisson distribution, 50 samples')
-    pyplot.show()
-
-    sim = Simulation(lambda_=5, samples_nr=100, mode="poisson")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(b) Poisson distribution, 50 samples')
-    pyplot.show()
-
-    sim = Simulation(lambda_=5, samples_nr=1000, mode="poisson")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(c) Poisson distribution, 1000 samples')
-    pyplot.show()
-
-    sim = Simulation(lambda_=5, samples_nr=10000, mode="poisson")
-    sim.run()
-    events_num = sim.histogram.popitem()        # remove last element from histogram
-    hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    pyplot.xlabel('Time interval')
-    pyplot.ylabel('Frequency')
-    pyplot.title('(d) Poisson distribution, 10000 samples')
-    pyplot.show()
