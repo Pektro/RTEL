@@ -5,8 +5,8 @@
 #    + lambda 
 #    + number of samples  
 #  - outputs:  
-#    + histogram representing the intervals between the arrival of events 
-#    + estimator of the average time between the arrival of events 
+#    + arrival_histogram representing the intervals between the arrival of events 
+#    + arrival_estimator of the average time between the arrival of events 
 
 
 import math
@@ -22,25 +22,60 @@ class Event:
 
 class Simulation:
 
-    def __init__(self, lambda_=200, miu_=125, samples_nr=500, T=1000, max_resources=5, stop_condition=0, mode="exponential"):
+    def __init__(self, lambda_=3, miu_=0.5, max_resources=1, queue_length=-1, max_delay=0.5, T=33333):
 
-        self.lambda_ = lambda_                  # arrival rate
-        self.miu_ = miu_                        # service rate  
-        self.samples_nr = samples_nr            # desired number of samples
-        self.T = T                              # simulation time period
-        self.max_resources = max_resources      # maximum number of system resources
-        self.stop_condition = stop_condition    # stopping condition: 0 - No. of samples, 1 - Time period
-        self.mode = mode                        # mode of simulation: exponential, poisson
+        self.lambda_        = lambda_           # arrival rate
+        self.miu_           = miu_              # service rate 
+        self.T              = T                 # simulation time period
+        self.max_resources  = max_resources     # maximum number of system resources
+        self.queue_length   = queue_length      # maximum queue length
+        self.max_delay      = max_delay         # maximum acceptable delay
 
-        self.events = []                        # list of events
-        self.active_calls = 0                   # number of active calls
+        self.events         = []                # list of events
+        self.waiting_queue  = []                # list of delayed calls
+        self.active_calls   = 0                 # number of active calls
         self.rejected_calls = 0                 # number of rejected calls
-        self.time = 0                           # current time
+        self.delayed_calls  = 0
+        self.time           = 0                 # current time
 
-        self.time_intervals = []
-        self.histogram = {}
+        self.time_intervals       = []          # arrival time intervals
+        self.delay_time_intervals = []          # delay time intervals
+        self.arrival_histogram    = {}
+        self.delay_histogram      = {}
 
-        self.estimator = 0
+    def generate_arrival_histogram(self):
+
+        delta = 1/5 * 1/self.lambda_
+        v_max =   5 * 1/self.lambda_
+        self.arrival_histogram = {i: 0 for i in range(0, int(v_max/delta)+1)}   # initialize arrival_histogram
+
+        for interval in self.time_intervals:
+            if interval > v_max:
+                continue
+            index = int(interval/delta)
+            self.arrival_histogram[index] += 1
+
+        n = len(self.arrival_histogram)
+        self.arrival_histogram[n] = len(self.time_intervals)        # store no. of samples
+
+        self.arrival_histogram = {round(k*delta, 3): v for k,v in self.arrival_histogram.items()}   # change keys to represent intervals
+
+    def generate_delay_histogram(self):
+
+        delta = 1/5 * 1/self.lambda_
+        v_max =  10 * 1/self.lambda_
+        self.delay_histogram = {i: 0 for i in range(0, int(v_max/delta)+1)}   # initialize delay_histogram
+
+        for interval in self.delay_time_intervals:
+            if interval > v_max:
+                continue
+            index = int(interval/delta)
+            self.delay_histogram[index] += 1
+
+        n = len(self.delay_histogram)
+        self.delay_histogram[n] = len(self.delay_time_intervals)    # store no. of samples
+
+        self.delay_histogram = {round(k*delta, 3): v for k,v in self.delay_histogram.items()}   # change keys to represent intervals
 
     def call_arrival_exponential(self):
 
@@ -61,154 +96,183 @@ class Simulation:
             self.events.append(Event("departure", next_departure))  # add next departure event
 
         else:
-            self.rejected_calls += 1
-
-    # def call_arrival_poisson(self):
-
-    #     delta = 0.001                                               # time interval for Poisson process simulation
-    #     last_event_time = self.time                                 # store last event time as the current time
-
-    #     while True:
-    #         self.time += delta                                      # increment time by delta at each try
-
-    #         u = random.uniform(0, 1)                                # generate a random number to check if an event occurs
-
-    #         if u < self.lambda_ * delta:                            # check if event occurs
-    #             next_arrival = self.time                            # current time becomes the arrival time
-    #             self.events.append(Event("arrival", next_arrival))
-                
-    #             interval = next_arrival - last_event_time           # record the time interval since the last event
-    #             self.time_intervals.append(interval)
-
-    #             last_event_time = next_arrival                      # update the last event time to the current event time
-    #             break
-
-    #     if self.active_calls < self.max_resources:                  # check if there are resources available
-
-    #         self.active_calls += 1                                  # update number of active calls
-
-    #         s = -math.log(random.uniform(0, 1)) / self.miu_         # -1/miu * ln(u) ; u ~ U(0,1)
-
-    #         next_departure = self.time + s                          # generate next departure time
-    #         self.events.append(Event("departure", next_departure))  # add next departure event
-
-    #     else:
-    #         self.rejected_calls += 1
-
+            if (self.queue_length > 0 and len(self.waiting_queue) < self.queue_length) or self.queue_length == -1:
+                self.delayed_calls += 1
+                self.waiting_queue.append(self.time)                # store delayed call
+            else:
+                self.rejected_calls += 1                            # update number of rejected calls
 
     def call_departure(self):
 
         if self.active_calls > 0:
             self.active_calls -= 1
 
+        if len(self.waiting_queue) > 0:                             # check if there are delayed calls
+
+            arrival = self.waiting_queue.pop(0)                     # remove first call from delayed calls
+            self.delay_time_intervals.append(self.time - arrival)   # store delay
+            self.active_calls += 1                                  # update number of active calls
+
+            # Generate departure event associated with respective arrival from waiting queue
+            s = - math.log(random.uniform(0, 1)) / self.miu_        # -1/miu * ln(u) ; u ~ U(0,1)
+            
+            next_departure = self.time + s                          # generate next departure time
+            self.events.append(Event("departure", next_departure))  # add next departure event
+    
     def run(self):
-
-        # Print simulation parameters
-        #print(f'\n\nSimulation parameters: lambda={self.lambda_}, miu={self.miu_}, samples_nr={self.samples_nr}, T={self.T}, max_resources={self.max_resources}, mode={self.mode}')
-        #print(f'Stopping condition: {self.samples_nr} samples\n') if self.stop_condition == 0 else print(f'Stopping condition: {self.T} s\n')
-        #print(">> Simulation started")
-
-        # # Generate random number of active calls
-        # self.active_calls = random.randint(1, int(self.samples_nr/5))
-        # print(f'System started with: {self.active_calls} active calls\n')
-        # i = self.active_calls
-        # time = 0
-
-        # for j in range(i):                                      # starts the system with i active calls
-        #     s = - math.log(random.uniform(0, 1)) / self.miu_     
-        #     time += s
-        #     next_departure = time
-        #     self.events.append(Event("departure", next_departure))
 
         # Generate first arrival
         next_arrival = self.time - math.log(random.uniform(0, 1)) / self.lambda_
         self.events.append(Event("arrival", next_arrival))  
         self.events.sort(key=lambda event: event.time)
 
-        condition = (self.samples_nr > 0) if self.stop_condition == 0 else (self.time < self.T)
-
         # Run simulation
-        while condition:
+        while self.time < self.T:
 
             event = self.events.pop(0)                      # get next event
             self.time = event.time
 
-            #print(f'{round(event.time, 3)}: {event.event_type}, active calls: {self.active_calls}')
-
             if event.event_type == "arrival":               # process event
-                if self.mode == "exponential":
-                    self.call_arrival_exponential()
-                # else:
-                #     self.call_arrival_poisson()
-                self.samples_nr -= 1
-
+                self.call_arrival_exponential()
             else:
                 self.call_departure()
 
             self.events.sort(key=lambda event: event.time)  # sort events by time
 
-            condition = (self.samples_nr > 0) if self.stop_condition == 0 else (self.time < self.T)
+        # Generate histograms
+        self.generate_arrival_histogram()
+        self.generate_delay_histogram()
 
-        # Generate histogram
-        delta = 1/5 * 1/self.lambda_
-        v_max =   5 * 1/self.lambda_
-        self.histogram = {i: 0 for i in range(0, int(v_max/delta)+1)}   # initialize histogram
-
-        for interval in self.time_intervals:
-            if interval > v_max:
-                continue
-            index = int(interval/delta)
-            self.histogram[index] += 1
-
-        n = len(self.histogram)
-        self.histogram[n] = len(self.time_intervals)                    # store no. of samples
-
-        self.histogram = {round(k*delta, 3): v for k,v in self.histogram.items()}   # change keys to represent intervals
-
-        # Calculate estimator
-        self.estimator = sum(self.time_intervals) / len(self.time_intervals)
+        # Calculate estimators
+        self.arrival_estimator       = sum(self.time_intervals) / len(self.time_intervals)          # e
+        self.block_prob_estimator    = self.rejected_calls / len(self.time_intervals)               # Pb
+        self.delay_prob_estimator    = self.delayed_calls  / len(self.time_intervals)               # Pd
+        self.avrg_delay_estimator    = sum(self.delay_time_intervals) / len(self.time_intervals)    # Am
+        self.service_level_estimator = 1 - sum([delay>self.max_delay for delay in self.delay_time_intervals]) / len(self.time_intervals)
 
         # Print results
         print(">> Simulation ended")
-        print(f'Average time between the arrival of events: {self.estimator} (expected: {1/self.lambda_})')
-        print("Number of rejected calls: ", self.rejected_calls)
+        print(f'Average time between the arrival of events: {self.arrival_estimator} (expected: {1/self.lambda_})')
+        print("Number of delayed calls: ", self.delayed_calls)
         print("Number of samples: ", len(self.time_intervals))
-        print("Block probability: ", round(self.rejected_calls / len(self.time_intervals)*100, 3))
+        print("Block probability: ", round(self.block_prob_estimator, 3))
 
+def print_statistics(data, f):
+
+    average_prob = sum(data)/n
+    standard_dev = math.sqrt(sum([(x - average_prob)**2 for x in data])/(n-1))
+    standard_error = standard_dev / math.sqrt(n)        
+    confidence_interval = 1.96 * standard_error              # 95% confidence interval
+
+    prompt1 = f'Average: {round(average_prob, 4)}'
+    prompt2 = f'Standard deviation: {round(standard_dev, 4)}'
+    prompt3 = f'Standard error: {round(standard_error, 4)}'
+    prompt4 = f'Confidence interval: {round(average_prob, 4)} +- {round(confidence_interval, 4)}'
+
+    if f == None:
+        print(prompt1)
+        print(prompt2)
+        print(prompt3)
+        print(prompt4)
+
+    else:
+        f.write(prompt1 + '\t|  ')
+        f.write(prompt2 + '\t|  ')
+        f.write(prompt3 + '\t|  ')
+        f.write(prompt4 + '\t')
+
+def export_data(sim, data):
+    
+        with open('sim_data.txt', 'a') as f:
+            f.write(f'No. of simulations: {data[0]}\n')
+            f.write(f'Simulation parameters:\n')
+            f.write(f'>> lambda: {sim.lambda_}; miu: {sim.miu_}; max_resources: {sim.max_resources};queue_length: {sim.queue_length}; max_delay: {sim.max_delay}; T: {sim.T}\n\n')
+
+            f.write("\n===  BLOCK PROB STATISTICS  ===\n")
+            print_statistics(data[1], f)
+
+            f.write("\n===  DELAY PROB STATISTICS  ===\n")
+            print_statistics(data[2], f)
+
+            f.write("\n===  WAITING TIME STATISTICS (s) ===\n")
+            print_statistics(data[3], f)
+
+            f.write("\n===  SERVICE LEVEL STATISTICS ===\n")
+            print_statistics(data[4], f)
+
+            f.write("\n\n")
+            f.write("=======================================================\n\n")
+        
+def plot_histogram(hist, n):
+
+    pyplot.bar(hist.keys(), hist.values(), width=0.03, align='edge')
+    # add caption
+    pyplot.xlabel('Time interval')
+    pyplot.ylabel('Frequency')
+    pyplot.title(f'(' + chr(96+n) + ') Delay histogram, infinite queue, ' + str(5+n) + ' servers')
+    pyplot.savefig('hists/histogram' + str(n) + '.png')
+    pyplot.show()
 
 if __name__ == "__main__":
 
     # Run simulation n times
-    n = 30
+    n = 1
+
     samples_nr = []
+
     rejected_calls = []
+    delayed_calls  = []
+    
     block_prob = []
-    for i in range(n):
-        print(f'\n\nSimulation {i+1}')
-        sim = Simulation(mode="exponential", stop_condition=1, T=100)
-        sim.run()
-        samples_nr.append(len(sim.time_intervals))
-        rejected_calls.append(sim.rejected_calls)
-        block_prob.append(sim.rejected_calls / len(sim.time_intervals)*100)
+    delay_prob = []
 
-    # statistics
-    average_prob = sum(block_prob)/n
-    standard_dev = math.sqrt(sum([(x - average_prob)**2 for x in block_prob])/(n-1))
-    standard_error = standard_dev / math.sqrt(n)        
-    confidence_interval = 1.96 * standard_error              # 95% confidence interval
+    average_delays = []
+    service_levels = []
 
-    print(f'\n\nAverage number of samples: {round(sum(samples_nr)/n, 2)}')
-    print(f'Average number of rejected calls: {round(sum(rejected_calls)/n, 2)}')
-    print(f'Average block probability: {round(average_prob, 3)}')
-    print(f'Standard deviation: {round(standard_dev, 3)}')
-    print(f'Standard error: {round(standard_error, 3)}')
-    print(f'Confidence interval: {round(average_prob, 3)} +- {round(confidence_interval, 3)}')
+    histograms = []
+
+    for j in range(4):
+        for i in range(n):
+            print(f'\n\nSimulation {i+1}')
+
+            sim = Simulation(max_resources=j+6)
+            sim.run()
+
+            samples_nr.append(len(sim.time_intervals))
+
+            rejected_calls.append(sim.rejected_calls)               # store number of rejected calls from each simulation
+            delayed_calls.append(sim.delayed_calls)                 # store number of delayed calls from each simulation
+
+            block_prob.append(sim.block_prob_estimator)             # store block probability for each simulation
+            delay_prob.append(sim.delay_prob_estimator)             # store delay probability for each simulation
+
+            average_delays.append(sim.avrg_delay_estimator)         # store average delay for each simulation
+            service_levels.append(sim.service_level_estimator)      # store service level for each simulation
+
+        data = [n, block_prob, delay_prob, average_delays, service_levels]
+        #export_data(sim, data)
+
+        sim.delay_histogram.popitem()                               # remove last element from delay_histogram
+        histograms.append(sim.delay_histogram)
+
+        # Reset lists
+        samples_nr = []
+
+        rejected_calls = []
+        delayed_calls  = []
         
-    # events_num = sim.histogram.popitem()        # remove last element from histogram
-    # hist = pyplot.bar(sim.histogram.keys(), sim.histogram.values(), width=0.03, align='edge')
-    #add caption
-    # pyplot.xlabel('Time interval')
-    # pyplot.ylabel('Frequency')
-    # pyplot.title('(a) Exponential distribution, 50 samples')
-    # pyplot.show()
+        block_prob = []
+        delay_prob = []
 
+        average_delays = []
+        service_levels = []
+        
+    # Plot histograms
+
+    for i in range(4):
+        plot_histogram(histograms[i], i+1)
+
+
+
+
+    
