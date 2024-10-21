@@ -22,7 +22,7 @@ class Event:
 
 class Simulation:
 
-    def __init__(self, lambda_=3, miu_=0.5, max_resources=1, queue_length=-1, max_delay=0.5, T=33333):
+    def __init__(self, lambda_=3, miu_=0.5, max_resources=1, queue_length=100, max_delay=0.5, T=33333):
 
         self.lambda_        = lambda_           # arrival rate
         self.miu_           = miu_              # service rate 
@@ -181,27 +181,32 @@ def print_statistics(data, f):
         f.write(prompt3 + '\t|  ')
         f.write(prompt4 + '\t')
 
+    return average_prob, standard_dev, standard_error, confidence_interval
+
 def export_data(sim, data):
     
-        with open('sim_data.txt', 'a') as f:
-            f.write(f'No. of simulations: {data[0]}\n')
-            f.write(f'Simulation parameters:\n')
-            f.write(f'>> lambda: {sim.lambda_}; miu: {sim.miu_}; max_resources: {sim.max_resources};queue_length: {sim.queue_length}; max_delay: {sim.max_delay}; T: {sim.T}\n\n')
+    with open('block_prob_finder.txt', 'a') as f:       # sim_data.txt / block_prob_finder.txt
+        f.write(f'No. of simulations: {data[0]}\n')
+        f.write(f'Simulation parameters:\n')
+        f.write(f'>> lambda: {sim.lambda_}; miu: {sim.miu_}; max_resources: {sim.max_resources}; queue_length: {sim.queue_length}; max_delay: {sim.max_delay}; T: {sim.T}\n\n')
 
-            f.write("\n===  BLOCK PROB STATISTICS  ===\n")
-            print_statistics(data[1], f)
+        f.write("\n===  BLOCK PROB STATISTICS  ===\n")
+        print_statistics(data[1], f)
 
-            f.write("\n===  DELAY PROB STATISTICS  ===\n")
-            print_statistics(data[2], f)
+        f.write("\n===  DELAY PROB STATISTICS  ===\n")
+        print_statistics(data[2], f)
 
-            f.write("\n===  WAITING TIME STATISTICS (s) ===\n")
-            print_statistics(data[3], f)
+        # f.write("\n===  WAITING TIME STATISTICS (s) ===\n")       # sim_data.txt
+        # print_statistics(data[3], f)
 
-            f.write("\n===  SERVICE LEVEL STATISTICS ===\n")
-            print_statistics(data[4], f)
+        # f.write("\n===  SERVICE LEVEL STATISTICS ===\n")          # sim_data.txt
+        # print_statistics(data[4], f)
 
-            f.write("\n\n")
-            f.write("=======================================================\n\n")
+        f.write("\n\n")
+        f.write("=======================================================\n\n")
+
+    return
+    
         
 def plot_histogram(hist, n):
 
@@ -216,7 +221,7 @@ def plot_histogram(hist, n):
 if __name__ == "__main__":
 
     # Run simulation n times
-    n = 1
+    n = 30
 
     samples_nr = []
 
@@ -231,11 +236,11 @@ if __name__ == "__main__":
 
     histograms = []
 
-    for j in range(4):
+    for j in range(30):
         for i in range(n):
             print(f'\n\nSimulation {i+1}')
 
-            sim = Simulation(max_resources=j+6)
+            sim = Simulation(max_resources=7, queue_length=30-j)
             sim.run()
 
             samples_nr.append(len(sim.time_intervals))
@@ -249,13 +254,21 @@ if __name__ == "__main__":
             average_delays.append(sim.avrg_delay_estimator)         # store average delay for each simulation
             service_levels.append(sim.service_level_estimator)      # store service level for each simulation
 
+        ''' Export simulation statistics to file '''
         data = [n, block_prob, delay_prob, average_delays, service_levels]
-        #export_data(sim, data)
+        export_data(sim, data)
 
-        sim.delay_histogram.popitem()                               # remove last element from delay_histogram
-        histograms.append(sim.delay_histogram)
+        ''' Export histograms to file '''
+        # sim.delay_histogram.popitem()                               # remove last element from delay_histogram
+        # histograms.append(sim.delay_histogram)
 
-        # Reset lists
+        ''' Get 1% block probability '''
+        # avg_block_prob = print_statistics(block_prob, None)[0]
+        # if avg_block_prob > 0.01:
+        #     print(f'Queue length: {30-j}')
+        #     break
+
+        ''' Reset lists '''
         samples_nr = []
 
         rejected_calls = []
@@ -267,10 +280,9 @@ if __name__ == "__main__":
         average_delays = []
         service_levels = []
         
-    # Plot histograms
-
-    for i in range(4):
-        plot_histogram(histograms[i], i+1)
+    ''' Plot histograms '''
+    # for i in range(4):
+    #     plot_histogram(histograms[i], i+1)
 
 
 

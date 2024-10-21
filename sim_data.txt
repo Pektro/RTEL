@@ -1,6 +1,6 @@
 No. of simulations: 30
 Simulation parameters:
->> lambda: 200; miu: 125; max_resources: 1;queue_length: 0; max_delay: 0.5; T: 500
+>> lambda: 200; miu: 125; max_resources: 1; queue_length: 0; max_delay: 0.5; T: 500
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -12,11 +12,11 @@ Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence int
 ===  SERVICE LEVEL STATISTICS ===
 Average: 1.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 1.0 +- 0.0	
 
-=======================================================
+======================================================= 1.A
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 200; miu: 125; max_resources: 2;queue_length: 0; max_delay: 0.5; T: 500
+>> lambda: 200; miu: 125; max_resources: 2; queue_length: 0; max_delay: 0.5; T: 500
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -28,11 +28,11 @@ Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence int
 ===  SERVICE LEVEL STATISTICS ===
 Average: 1.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 1.0 +- 0.0	
 
-=======================================================
+======================================================= 1.B
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 200; miu: 125; max_resources: 3;queue_length: 0; max_delay: 0.5; T: 500
+>> lambda: 200; miu: 125; max_resources: 3; queue_length: 0; max_delay: 0.5; T: 500
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -44,11 +44,11 @@ Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence int
 ===  SERVICE LEVEL STATISTICS ===
 Average: 1.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 1.0 +- 0.0	
 
-=======================================================
+======================================================= 1.C
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 200; miu: 125; max_resources: 4;queue_length: 0; max_delay: 0.5; T: 500
+>> lambda: 200; miu: 125; max_resources: 4; queue_length: 0; max_delay: 0.5; T: 500
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -60,11 +60,11 @@ Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence int
 ===  SERVICE LEVEL STATISTICS ===
 Average: 1.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 1.0 +- 0.0	
 
-=======================================================
+======================================================= 1.D
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 3; miu: 0.5; max_resources: 6;queue_length: -1; max_delay: 0.5; T: 33333
+>> lambda: 3; miu: 0.5; max_resources: 6; queue_length: -1; max_delay: 0.5; T: 33333
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -76,11 +76,11 @@ Average: 88.4876	|  Standard deviation: 52.2882	|  Standard error: 9.5465	|  Con
 ===  SERVICE LEVEL STATISTICS ===
 Average: 0.0203	|  Standard deviation: 0.0091	|  Standard error: 0.0017	|  Confidence interval: 0.0203 +- 0.0032	
 
-=======================================================
+======================================================= 2.A
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 3; miu: 0.5; max_resources: 7;queue_length: -1; max_delay: 0.5; T: 33333
+>> lambda: 3; miu: 0.5; max_resources: 7; queue_length: -1; max_delay: 0.5; T: 33333
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -92,11 +92,11 @@ Average: 1.2333	|  Standard deviation: 0.0765	|  Standard error: 0.014	|  Confid
 ===  SERVICE LEVEL STATISTICS ===
 Average: 0.5225	|  Standard deviation: 0.012	|  Standard error: 0.0022	|  Confidence interval: 0.5225 +- 0.0043	
 
-=======================================================
+======================================================= 2.B
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 3; miu: 0.5; max_resources: 8;queue_length: -1; max_delay: 0.5; T: 33333
+>> lambda: 3; miu: 0.5; max_resources: 8; queue_length: -1; max_delay: 0.5; T: 33333
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -108,11 +108,11 @@ Average: 0.3597	|  Standard deviation: 0.0143	|  Standard error: 0.0026	|  Confi
 ===  SERVICE LEVEL STATISTICS ===
 Average: 0.7831	|  Standard deviation: 0.0057	|  Standard error: 0.001	|  Confidence interval: 0.7831 +- 0.002	
 
-=======================================================
+======================================================= 2.C
 
 No. of simulations: 30
 Simulation parameters:
->> lambda: 3; miu: 0.5; max_resources: 9;queue_length: -1; max_delay: 0.5; T: 33333
+>> lambda: 3; miu: 0.5; max_resources: 9; queue_length: -1; max_delay: 0.5; T: 33333
 
 
 ===  BLOCK PROB STATISTICS  ===
@@ -124,5 +124,5 @@ Average: 0.1323	|  Standard deviation: 0.0054	|  Standard error: 0.001	|  Confid
 ===  SERVICE LEVEL STATISTICS ===
 Average: 0.9061	|  Standard deviation: 0.004	|  Standard error: 0.0007	|  Confidence interval: 0.9061 +- 0.0014	
 
-=======================================================
+======================================================= 2.D
 
