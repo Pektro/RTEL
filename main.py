@@ -1,14 +1,3 @@
-# Implement a program in that generates intervals between the arrival of 
-# consecutive events: 
- 
-#  - inputs:  
-#    + lambda 
-#    + number of samples  
-#  - outputs:  
-#    + arrival_histogram representing the intervals between the arrival of events 
-#    + arrival_estimator of the average time between the arrival of events 
-
-
 import math
 import random
 from matplotlib import pyplot
@@ -199,8 +188,8 @@ def export_data(sim, data):
         # f.write("\n===  WAITING TIME STATISTICS (s) ===\n")       # sim_data.txt
         # print_statistics(data[3], f)
 
-        f.write("\n===  SERVICE LEVEL STATISTICS ===\n")          # sim_data.txt
-        print_statistics(data[4], f)
+        # f.write("\n===  SERVICE LEVEL STATISTICS ===\n")          # sim_data.txt
+        # print_statistics(data[4], f)
 
         f.write("\n\n")
         f.write("=======================================================\n\n")
