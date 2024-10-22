@@ -146,9 +146,9 @@ class Simulation:
         # Calculate estimators
         self.arrival_estimator       = sum(self.time_intervals) / len(self.time_intervals)          # e
         self.block_prob_estimator    = self.rejected_calls / len(self.time_intervals)               # Pb
-        self.delay_prob_estimator    = self.delayed_calls  / len(self.time_intervals)               # Pd
+        self.delay_prob_estimator    = (self.delayed_calls + self.rejected_calls) / len(self.time_intervals)               # Pd
         self.avrg_delay_estimator    = sum(self.delay_time_intervals) / len(self.time_intervals)    # Am
-        self.service_level_estimator = 1 - sum([delay>self.max_delay for delay in self.delay_time_intervals]) / len(self.time_intervals)
+        self.service_level_estimator = 1 - (sum([delay>self.max_delay for delay in self.delay_time_intervals]) + self.rejected_calls) / len(self.time_intervals)
 
         # Print results
         print(">> Simulation ended")
@@ -199,8 +199,8 @@ def export_data(sim, data):
         # f.write("\n===  WAITING TIME STATISTICS (s) ===\n")       # sim_data.txt
         # print_statistics(data[3], f)
 
-        # f.write("\n===  SERVICE LEVEL STATISTICS ===\n")          # sim_data.txt
-        # print_statistics(data[4], f)
+        f.write("\n===  SERVICE LEVEL STATISTICS ===\n")          # sim_data.txt
+        print_statistics(data[4], f)
 
         f.write("\n\n")
         f.write("=======================================================\n\n")

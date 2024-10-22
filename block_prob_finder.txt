@@ -4,9 +4,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0009	|  Standard deviation: 0.0003	|  Standard error: 0.0001	|  Confidence interval: 0.0009 +- 0.0001	
+Average: 0.0008	|  Standard deviation: 0.0003	|  Standard error: 0.0001	|  Confidence interval: 0.0008 +- 0.0001	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6094	|  Standard deviation: 0.0097	|  Standard error: 0.0018	|  Confidence interval: 0.6094 +- 0.0035	
+Average: 0.6111	|  Standard deviation: 0.0106	|  Standard error: 0.0019	|  Confidence interval: 0.6111 +- 0.0038	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.526	|  Standard deviation: 0.0129	|  Standard error: 0.0024	|  Confidence interval: 0.526 +- 0.0046	
 
 =======================================================
 
@@ -16,9 +18,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0011	|  Standard deviation: 0.0003	|  Standard error: 0.0001	|  Confidence interval: 0.0011 +- 0.0001	
+Average: 0.001	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.001 +- 0.0001	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6116	|  Standard deviation: 0.0083	|  Standard error: 0.0015	|  Confidence interval: 0.6116 +- 0.003	
+Average: 0.6114	|  Standard deviation: 0.0099	|  Standard error: 0.0018	|  Confidence interval: 0.6114 +- 0.0035	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5256	|  Standard deviation: 0.0119	|  Standard error: 0.0022	|  Confidence interval: 0.5256 +- 0.0043	
 
 =======================================================
 
@@ -28,9 +32,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0011	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0011 +- 0.0001	
+Average: 0.0012	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0012 +- 0.0001	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6089	|  Standard deviation: 0.0102	|  Standard error: 0.0019	|  Confidence interval: 0.6089 +- 0.0037	
+Average: 0.6116	|  Standard deviation: 0.0075	|  Standard error: 0.0014	|  Confidence interval: 0.6116 +- 0.0027	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5251	|  Standard deviation: 0.0084	|  Standard error: 0.0015	|  Confidence interval: 0.5251 +- 0.003	
 
 =======================================================
 
@@ -40,9 +46,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0015	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0015 +- 0.0002	
+Average: 0.0013	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0013 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6071	|  Standard deviation: 0.008	|  Standard error: 0.0015	|  Confidence interval: 0.6071 +- 0.0029	
+Average: 0.6065	|  Standard deviation: 0.0085	|  Standard error: 0.0016	|  Confidence interval: 0.6065 +- 0.0031	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5315	|  Standard deviation: 0.0107	|  Standard error: 0.0019	|  Confidence interval: 0.5315 +- 0.0038	
 
 =======================================================
 
@@ -52,9 +60,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0017	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0017 +- 0.0002	
+Average: 0.0015	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0015 +- 0.0001	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6093	|  Standard deviation: 0.011	|  Standard error: 0.002	|  Confidence interval: 0.6093 +- 0.0039	
+Average: 0.6081	|  Standard deviation: 0.0099	|  Standard error: 0.0018	|  Confidence interval: 0.6081 +- 0.0035	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5293	|  Standard deviation: 0.0113	|  Standard error: 0.0021	|  Confidence interval: 0.5293 +- 0.004	
 
 =======================================================
 
@@ -64,9 +74,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0019	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0019 +- 0.0001	
+Average: 0.0019	|  Standard deviation: 0.0005	|  Standard error: 0.0001	|  Confidence interval: 0.0019 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6117	|  Standard deviation: 0.008	|  Standard error: 0.0015	|  Confidence interval: 0.6117 +- 0.0029	
+Average: 0.6075	|  Standard deviation: 0.0097	|  Standard error: 0.0018	|  Confidence interval: 0.6075 +- 0.0035	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5302	|  Standard deviation: 0.0113	|  Standard error: 0.0021	|  Confidence interval: 0.5302 +- 0.004	
 
 =======================================================
 
@@ -76,9 +88,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0021	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0021 +- 0.0001	
+Average: 0.0022	|  Standard deviation: 0.0005	|  Standard error: 0.0001	|  Confidence interval: 0.0022 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6072	|  Standard deviation: 0.009	|  Standard error: 0.0016	|  Confidence interval: 0.6072 +- 0.0032	
+Average: 0.6094	|  Standard deviation: 0.0075	|  Standard error: 0.0014	|  Confidence interval: 0.6094 +- 0.0027	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5283	|  Standard deviation: 0.0087	|  Standard error: 0.0016	|  Confidence interval: 0.5283 +- 0.0031	
 
 =======================================================
 
@@ -88,9 +102,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0026	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0026 +- 0.0002	
+Average: 0.0025	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0025 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.606	|  Standard deviation: 0.0092	|  Standard error: 0.0017	|  Confidence interval: 0.606 +- 0.0033	
+Average: 0.6049	|  Standard deviation: 0.0097	|  Standard error: 0.0018	|  Confidence interval: 0.6049 +- 0.0035	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5341	|  Standard deviation: 0.0122	|  Standard error: 0.0022	|  Confidence interval: 0.5341 +- 0.0044	
 
 =======================================================
 
@@ -100,9 +116,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.003	|  Standard deviation: 0.0006	|  Standard error: 0.0001	|  Confidence interval: 0.003 +- 0.0002	
+Average: 0.0029	|  Standard deviation: 0.0006	|  Standard error: 0.0001	|  Confidence interval: 0.0029 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6018	|  Standard deviation: 0.0075	|  Standard error: 0.0014	|  Confidence interval: 0.6018 +- 0.0027	
+Average: 0.6046	|  Standard deviation: 0.0085	|  Standard error: 0.0015	|  Confidence interval: 0.6046 +- 0.003	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5338	|  Standard deviation: 0.0098	|  Standard error: 0.0018	|  Confidence interval: 0.5338 +- 0.0035	
 
 =======================================================
 
@@ -112,9 +130,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0034	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0034 +- 0.0002	
+Average: 0.0034	|  Standard deviation: 0.0004	|  Standard error: 0.0001	|  Confidence interval: 0.0034 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6013	|  Standard deviation: 0.0083	|  Standard error: 0.0015	|  Confidence interval: 0.6013 +- 0.003	
+Average: 0.6058	|  Standard deviation: 0.009	|  Standard error: 0.0016	|  Confidence interval: 0.6058 +- 0.0032	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.533	|  Standard deviation: 0.0102	|  Standard error: 0.0019	|  Confidence interval: 0.533 +- 0.0036	
 
 =======================================================
 
@@ -124,9 +144,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0042	|  Standard deviation: 0.0005	|  Standard error: 0.0001	|  Confidence interval: 0.0042 +- 0.0002	
+Average: 0.0039	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0039 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.6008	|  Standard deviation: 0.0082	|  Standard error: 0.0015	|  Confidence interval: 0.6008 +- 0.0029	
+Average: 0.603	|  Standard deviation: 0.0078	|  Standard error: 0.0014	|  Confidence interval: 0.603 +- 0.0028	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5365	|  Standard deviation: 0.0099	|  Standard error: 0.0018	|  Confidence interval: 0.5365 +- 0.0035	
 
 =======================================================
 
@@ -136,9 +158,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0047	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0047 +- 0.0002	
+Average: 0.0047	|  Standard deviation: 0.0006	|  Standard error: 0.0001	|  Confidence interval: 0.0047 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5983	|  Standard deviation: 0.0085	|  Standard error: 0.0015	|  Confidence interval: 0.5983 +- 0.003	
+Average: 0.6011	|  Standard deviation: 0.0069	|  Standard error: 0.0013	|  Confidence interval: 0.6011 +- 0.0025	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5389	|  Standard deviation: 0.0071	|  Standard error: 0.0013	|  Confidence interval: 0.5389 +- 0.0025	
 
 =======================================================
 
@@ -148,9 +172,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0056	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0056 +- 0.0003	
+Average: 0.0055	|  Standard deviation: 0.0007	|  Standard error: 0.0001	|  Confidence interval: 0.0055 +- 0.0002	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5957	|  Standard deviation: 0.0097	|  Standard error: 0.0018	|  Confidence interval: 0.5957 +- 0.0035	
+Average: 0.6001	|  Standard deviation: 0.0075	|  Standard error: 0.0014	|  Confidence interval: 0.6001 +- 0.0027	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5403	|  Standard deviation: 0.0092	|  Standard error: 0.0017	|  Confidence interval: 0.5403 +- 0.0033	
 
 =======================================================
 
@@ -160,9 +186,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0066	|  Standard deviation: 0.001	|  Standard error: 0.0002	|  Confidence interval: 0.0066 +- 0.0004	
+Average: 0.0066	|  Standard deviation: 0.0009	|  Standard error: 0.0002	|  Confidence interval: 0.0066 +- 0.0003	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.592	|  Standard deviation: 0.0073	|  Standard error: 0.0013	|  Confidence interval: 0.592 +- 0.0026	
+Average: 0.5977	|  Standard deviation: 0.008	|  Standard error: 0.0015	|  Confidence interval: 0.5977 +- 0.0028	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5436	|  Standard deviation: 0.0095	|  Standard error: 0.0017	|  Confidence interval: 0.5436 +- 0.0034	
 
 =======================================================
 
@@ -172,9 +200,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0078	|  Standard deviation: 0.0008	|  Standard error: 0.0001	|  Confidence interval: 0.0078 +- 0.0003	
+Average: 0.0077	|  Standard deviation: 0.001	|  Standard error: 0.0002	|  Confidence interval: 0.0077 +- 0.0003	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5873	|  Standard deviation: 0.0062	|  Standard error: 0.0011	|  Confidence interval: 0.5873 +- 0.0022	
+Average: 0.5939	|  Standard deviation: 0.0075	|  Standard error: 0.0014	|  Confidence interval: 0.5939 +- 0.0027	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5483	|  Standard deviation: 0.0089	|  Standard error: 0.0016	|  Confidence interval: 0.5483 +- 0.0032	
 
 =======================================================
 
@@ -184,9 +214,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0092	|  Standard deviation: 0.001	|  Standard error: 0.0002	|  Confidence interval: 0.0092 +- 0.0004	
+Average: 0.0092	|  Standard deviation: 0.0009	|  Standard error: 0.0002	|  Confidence interval: 0.0092 +- 0.0003	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5834	|  Standard deviation: 0.0087	|  Standard error: 0.0016	|  Confidence interval: 0.5834 +- 0.0031	
+Average: 0.5937	|  Standard deviation: 0.0077	|  Standard error: 0.0014	|  Confidence interval: 0.5937 +- 0.0028	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5491	|  Standard deviation: 0.0092	|  Standard error: 0.0017	|  Confidence interval: 0.5491 +- 0.0033	
 
 =======================================================
 
@@ -196,9 +228,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0109	|  Standard deviation: 0.0012	|  Standard error: 0.0002	|  Confidence interval: 0.0109 +- 0.0004	
+Average: 0.0107	|  Standard deviation: 0.0009	|  Standard error: 0.0002	|  Confidence interval: 0.0107 +- 0.0003	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5764	|  Standard deviation: 0.0095	|  Standard error: 0.0017	|  Confidence interval: 0.5764 +- 0.0034	
+Average: 0.5881	|  Standard deviation: 0.0076	|  Standard error: 0.0014	|  Confidence interval: 0.5881 +- 0.0027	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5576	|  Standard deviation: 0.0094	|  Standard error: 0.0017	|  Confidence interval: 0.5576 +- 0.0034	
 
 =======================================================
 
@@ -208,9 +242,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0126	|  Standard deviation: 0.0011	|  Standard error: 0.0002	|  Confidence interval: 0.0126 +- 0.0004	
+Average: 0.0124	|  Standard deviation: 0.0011	|  Standard error: 0.0002	|  Confidence interval: 0.0124 +- 0.0004	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5715	|  Standard deviation: 0.0052	|  Standard error: 0.001	|  Confidence interval: 0.5715 +- 0.0019	
+Average: 0.5834	|  Standard deviation: 0.0095	|  Standard error: 0.0017	|  Confidence interval: 0.5834 +- 0.0034	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5631	|  Standard deviation: 0.0108	|  Standard error: 0.002	|  Confidence interval: 0.5631 +- 0.0038	
 
 =======================================================
 
@@ -220,9 +256,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0154	|  Standard deviation: 0.0011	|  Standard error: 0.0002	|  Confidence interval: 0.0154 +- 0.0004	
+Average: 0.0151	|  Standard deviation: 0.001	|  Standard error: 0.0002	|  Confidence interval: 0.0151 +- 0.0004	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5659	|  Standard deviation: 0.0061	|  Standard error: 0.0011	|  Confidence interval: 0.5659 +- 0.0022	
+Average: 0.5778	|  Standard deviation: 0.0077	|  Standard error: 0.0014	|  Confidence interval: 0.5778 +- 0.0027	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5694	|  Standard deviation: 0.0082	|  Standard error: 0.0015	|  Confidence interval: 0.5694 +- 0.0029	
 
 =======================================================
 
@@ -232,9 +270,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0176	|  Standard deviation: 0.0011	|  Standard error: 0.0002	|  Confidence interval: 0.0176 +- 0.0004	
+Average: 0.0176	|  Standard deviation: 0.0012	|  Standard error: 0.0002	|  Confidence interval: 0.0176 +- 0.0004	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.554	|  Standard deviation: 0.0058	|  Standard error: 0.0011	|  Confidence interval: 0.554 +- 0.0021	
+Average: 0.5708	|  Standard deviation: 0.006	|  Standard error: 0.0011	|  Confidence interval: 0.5708 +- 0.0022	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.5794	|  Standard deviation: 0.0072	|  Standard error: 0.0013	|  Confidence interval: 0.5794 +- 0.0026	
 
 =======================================================
 
@@ -244,9 +284,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0211	|  Standard deviation: 0.0012	|  Standard error: 0.0002	|  Confidence interval: 0.0211 +- 0.0004	
+Average: 0.0213	|  Standard deviation: 0.0013	|  Standard error: 0.0002	|  Confidence interval: 0.0213 +- 0.0005	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5434	|  Standard deviation: 0.0054	|  Standard error: 0.001	|  Confidence interval: 0.5434 +- 0.0019	
+Average: 0.5666	|  Standard deviation: 0.0069	|  Standard error: 0.0013	|  Confidence interval: 0.5666 +- 0.0025	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.587	|  Standard deviation: 0.0078	|  Standard error: 0.0014	|  Confidence interval: 0.587 +- 0.0028	
 
 =======================================================
 
@@ -256,9 +298,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0253	|  Standard deviation: 0.0012	|  Standard error: 0.0002	|  Confidence interval: 0.0253 +- 0.0004	
+Average: 0.0249	|  Standard deviation: 0.0014	|  Standard error: 0.0003	|  Confidence interval: 0.0249 +- 0.0005	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5303	|  Standard deviation: 0.005	|  Standard error: 0.0009	|  Confidence interval: 0.5303 +- 0.0018	
+Average: 0.5541	|  Standard deviation: 0.0071	|  Standard error: 0.0013	|  Confidence interval: 0.5541 +- 0.0025	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.6029	|  Standard deviation: 0.008	|  Standard error: 0.0015	|  Confidence interval: 0.6029 +- 0.0028	
 
 =======================================================
 
@@ -268,9 +312,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0301	|  Standard deviation: 0.0015	|  Standard error: 0.0003	|  Confidence interval: 0.0301 +- 0.0005	
+Average: 0.0303	|  Standard deviation: 0.0011	|  Standard error: 0.0002	|  Confidence interval: 0.0303 +- 0.0004	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.5143	|  Standard deviation: 0.005	|  Standard error: 0.0009	|  Confidence interval: 0.5143 +- 0.0018	
+Average: 0.5453	|  Standard deviation: 0.0062	|  Standard error: 0.0011	|  Confidence interval: 0.5453 +- 0.0022	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.6151	|  Standard deviation: 0.0068	|  Standard error: 0.0012	|  Confidence interval: 0.6151 +- 0.0024	
 
 =======================================================
 
@@ -280,9 +326,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0361	|  Standard deviation: 0.0015	|  Standard error: 0.0003	|  Confidence interval: 0.0361 +- 0.0005	
+Average: 0.0365	|  Standard deviation: 0.0015	|  Standard error: 0.0003	|  Confidence interval: 0.0365 +- 0.0005	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.494	|  Standard deviation: 0.0041	|  Standard error: 0.0008	|  Confidence interval: 0.494 +- 0.0015	
+Average: 0.5325	|  Standard deviation: 0.0065	|  Standard error: 0.0012	|  Confidence interval: 0.5325 +- 0.0023	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.633	|  Standard deviation: 0.0068	|  Standard error: 0.0012	|  Confidence interval: 0.633 +- 0.0024	
 
 =======================================================
 
@@ -292,9 +340,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0439	|  Standard deviation: 0.0016	|  Standard error: 0.0003	|  Confidence interval: 0.0439 +- 0.0006	
+Average: 0.0442	|  Standard deviation: 0.0019	|  Standard error: 0.0003	|  Confidence interval: 0.0442 +- 0.0007	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.4675	|  Standard deviation: 0.0046	|  Standard error: 0.0008	|  Confidence interval: 0.4675 +- 0.0017	
+Average: 0.5115	|  Standard deviation: 0.0064	|  Standard error: 0.0012	|  Confidence interval: 0.5115 +- 0.0023	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.6598	|  Standard deviation: 0.0065	|  Standard error: 0.0012	|  Confidence interval: 0.6598 +- 0.0023	
 
 =======================================================
 
@@ -304,9 +354,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0538	|  Standard deviation: 0.0018	|  Standard error: 0.0003	|  Confidence interval: 0.0538 +- 0.0007	
+Average: 0.0539	|  Standard deviation: 0.0015	|  Standard error: 0.0003	|  Confidence interval: 0.0539 +- 0.0005	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.4359	|  Standard deviation: 0.0052	|  Standard error: 0.0009	|  Confidence interval: 0.4359 +- 0.0018	
+Average: 0.4895	|  Standard deviation: 0.0048	|  Standard error: 0.0009	|  Confidence interval: 0.4895 +- 0.0017	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.6889	|  Standard deviation: 0.0047	|  Standard error: 0.0009	|  Confidence interval: 0.6889 +- 0.0017	
 
 =======================================================
 
@@ -316,9 +368,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.066	|  Standard deviation: 0.0016	|  Standard error: 0.0003	|  Confidence interval: 0.066 +- 0.0006	
+Average: 0.0663	|  Standard deviation: 0.0018	|  Standard error: 0.0003	|  Confidence interval: 0.0663 +- 0.0006	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.3944	|  Standard deviation: 0.0043	|  Standard error: 0.0008	|  Confidence interval: 0.3944 +- 0.0015	
+Average: 0.4613	|  Standard deviation: 0.0064	|  Standard error: 0.0012	|  Confidence interval: 0.4613 +- 0.0023	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.7254	|  Standard deviation: 0.0053	|  Standard error: 0.001	|  Confidence interval: 0.7254 +- 0.0019	
 
 =======================================================
 
@@ -328,9 +382,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0832	|  Standard deviation: 0.0017	|  Standard error: 0.0003	|  Confidence interval: 0.0832 +- 0.0006	
+Average: 0.0824	|  Standard deviation: 0.0016	|  Standard error: 0.0003	|  Confidence interval: 0.0824 +- 0.0006	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.3412	|  Standard deviation: 0.003	|  Standard error: 0.0005	|  Confidence interval: 0.3412 +- 0.0011	
+Average: 0.4218	|  Standard deviation: 0.0043	|  Standard error: 0.0008	|  Confidence interval: 0.4218 +- 0.0015	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.7695	|  Standard deviation: 0.0034	|  Standard error: 0.0006	|  Confidence interval: 0.7695 +- 0.0012	
 
 =======================================================
 
@@ -340,9 +396,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.105	|  Standard deviation: 0.0019	|  Standard error: 0.0003	|  Confidence interval: 0.105 +- 0.0007	
+Average: 0.1048	|  Standard deviation: 0.0021	|  Standard error: 0.0004	|  Confidence interval: 0.1048 +- 0.0008	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.2646	|  Standard deviation: 0.0025	|  Standard error: 0.0005	|  Confidence interval: 0.2646 +- 0.0009	
+Average: 0.3708	|  Standard deviation: 0.0042	|  Standard error: 0.0008	|  Confidence interval: 0.3708 +- 0.0015	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.8117	|  Standard deviation: 0.0033	|  Standard error: 0.0006	|  Confidence interval: 0.8117 +- 0.0012	
 
 =======================================================
 
@@ -352,9 +410,11 @@ Simulation parameters:
 
 
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.1372	|  Standard deviation: 0.002	|  Standard error: 0.0004	|  Confidence interval: 0.1372 +- 0.0007	
+Average: 0.1362	|  Standard deviation: 0.002	|  Standard error: 0.0004	|  Confidence interval: 0.1362 +- 0.0007	
 ===  DELAY PROB STATISTICS  ===
-Average: 0.1598	|  Standard deviation: 0.0016	|  Standard error: 0.0003	|  Confidence interval: 0.1598 +- 0.0006	
+Average: 0.296	|  Standard deviation: 0.003	|  Standard error: 0.0005	|  Confidence interval: 0.296 +- 0.0011	
+===  SERVICE LEVEL STATISTICS ===
+Average: 0.8361	|  Standard deviation: 0.0024	|  Standard error: 0.0004	|  Confidence interval: 0.8361 +- 0.0009	
 
 =======================================================
 
