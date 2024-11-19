@@ -1,336 +1,64 @@
 No. of simulations: 20
 Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 1; L: 5; T: 432000
+>> lambda: 0.0222; gen_operators: 4; spec_operators: 4; L: 2; T: 0
 
 
 ===  DELAY PROB STATISTICS  ===
-Average: 0.1839	|  Standard deviation: 0.0034	|  Standard error: 0.0008	|  Confidence interval: 0.1839 +- 0.0015	
+Average: 0.0449	|  Standard deviation: 0.0028	|  Standard error: 0.0006	|  Confidence interval: 0.0449 +- 0.001	
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.025	|  Standard deviation: 0.0026	|  Standard error: 0.0006	|  Confidence interval: 0.025 +- 0.0011	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 1; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1873	|  Standard deviation: 0.0033	|  Standard error: 0.0007	|  Confidence interval: 0.1873 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0167	|  Standard deviation: 0.0027	|  Standard error: 0.0006	|  Confidence interval: 0.0167 +- 0.0012	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 1; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1927	|  Standard deviation: 0.0024	|  Standard error: 0.0005	|  Confidence interval: 0.1927 +- 0.0011	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0121	|  Standard deviation: 0.0021	|  Standard error: 0.0005	|  Confidence interval: 0.0121 +- 0.0009	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 2; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.183	|  Standard deviation: 0.0023	|  Standard error: 0.0005	|  Confidence interval: 0.183 +- 0.001	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0242	|  Standard deviation: 0.0027	|  Standard error: 0.0006	|  Confidence interval: 0.0242 +- 0.0012	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 2; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1891	|  Standard deviation: 0.0024	|  Standard error: 0.0005	|  Confidence interval: 0.1891 +- 0.0011	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0174	|  Standard deviation: 0.0022	|  Standard error: 0.0005	|  Confidence interval: 0.0174 +- 0.0009	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 2; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1911	|  Standard deviation: 0.0032	|  Standard error: 0.0007	|  Confidence interval: 0.1911 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0122	|  Standard deviation: 0.0016	|  Standard error: 0.0004	|  Confidence interval: 0.0122 +- 0.0007	
-
-=======================================================
-
-No. of simulations: 15
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 3; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1841	|  Standard deviation: 0.0027	|  Standard error: 0.0007	|  Confidence interval: 0.1841 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0245	|  Standard deviation: 0.0018	|  Standard error: 0.0005	|  Confidence interval: 0.0245 +- 0.0009	
-
-=======================================================
-
-No. of simulations: 15
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 3; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.189	|  Standard deviation: 0.0024	|  Standard error: 0.0006	|  Confidence interval: 0.189 +- 0.0012	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0181	|  Standard deviation: 0.0023	|  Standard error: 0.0006	|  Confidence interval: 0.0181 +- 0.0012	
-
-=======================================================
-
-No. of simulations: 15
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 3; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1918	|  Standard deviation: 0.0031	|  Standard error: 0.0008	|  Confidence interval: 0.1918 +- 0.0016	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0133	|  Standard deviation: 0.0021	|  Standard error: 0.0005	|  Confidence interval: 0.0133 +- 0.0011	
+Average: 0.007	|  Standard deviation: 0.001	|  Standard error: 0.0002	|  Confidence interval: 0.007 +- 0.0004	
+===  WAITING TIME STATISTICS (s) ===
+Average: 79.9046	|  Standard deviation: 4.124	|  Standard error: 0.9221	|  Confidence interval: 79.9046 +- 1.5169	
+===  SPEC. DELAY STATISTICS ===
+Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 0.0 +- 0.0	
 
 =======================================================
 
 No. of simulations: 10
 Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 4; L: 5; T: 432000
+>> lambda: 0.0222; gen_operators: 4; spec_operators: 2; L: 2; T: 0
 
 
 ===  DELAY PROB STATISTICS  ===
-Average: 0.1842	|  Standard deviation: 0.004	|  Standard error: 0.0013	|  Confidence interval: 0.1842 +- 0.0025	
+Average: 0.044	|  Standard deviation: 0.0013	|  Standard error: 0.0004	|  Confidence interval: 0.044 +- 0.0007	
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.0236	|  Standard deviation: 0.0033	|  Standard error: 0.001	|  Confidence interval: 0.0236 +- 0.002	
+Average: 0.0061	|  Standard deviation: 0.001	|  Standard error: 0.0003	|  Confidence interval: 0.0061 +- 0.0005	
+===  WAITING TIME STATISTICS (s) ===
+Average: 80.2779	|  Standard deviation: 6.0046	|  Standard error: 1.8988	|  Confidence interval: 80.2779 +- 3.1235	
+===  SPEC. DELAY STATISTICS ===
+Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 0.0 +- 0.0	
 
 =======================================================
 
-No. of simulations: 10
+No. of simulations: 80
 Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 4; L: 6; T: 432000
+>> lambda: 0.0222; gen_operators: 4; spec_operators: 1; L: 2; T: 0
 
 
 ===  DELAY PROB STATISTICS  ===
-Average: 0.1892	|  Standard deviation: 0.0037	|  Standard error: 0.0012	|  Confidence interval: 0.1892 +- 0.0023	
+Average: 0.0445	|  Standard deviation: 0.0027	|  Standard error: 0.0003	|  Confidence interval: 0.0445 +- 0.0005	
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.017	|  Standard deviation: 0.0018	|  Standard error: 0.0006	|  Confidence interval: 0.017 +- 0.0011	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 5; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1836	|  Standard deviation: 0.0023	|  Standard error: 0.0007	|  Confidence interval: 0.1836 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0251	|  Standard deviation: 0.0027	|  Standard error: 0.0009	|  Confidence interval: 0.0251 +- 0.0017	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 5; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1897	|  Standard deviation: 0.003	|  Standard error: 0.001	|  Confidence interval: 0.1897 +- 0.0019	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0167	|  Standard deviation: 0.0026	|  Standard error: 0.0008	|  Confidence interval: 0.0167 +- 0.0016	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 5; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1903	|  Standard deviation: 0.004	|  Standard error: 0.0013	|  Confidence interval: 0.1903 +- 0.0025	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.013	|  Standard deviation: 0.002	|  Standard error: 0.0006	|  Confidence interval: 0.013 +- 0.0012	
+Average: 0.0066	|  Standard deviation: 0.0011	|  Standard error: 0.0001	|  Confidence interval: 0.0066 +- 0.0002	
+===  WAITING TIME STATISTICS (s) ===
+Average: 80.2089	|  Standard deviation: 4.8283	|  Standard error: 0.5398	|  Confidence interval: 80.2089 +- 0.888	
+===  SPEC. DELAY STATISTICS ===
+Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 0.0 +- 0.0	
 
 =======================================================
 
 No. of simulations: 20
 Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 1; L: 5; T: 432000
+>> lambda: 0.0222; gen_operators: 10; spec_operators: 1; L: 2; T: 0
 
 
 ===  DELAY PROB STATISTICS  ===
-Average: 0.1839	|  Standard deviation: 0.0034	|  Standard error: 0.0008	|  Confidence interval: 0.1839 +- 0.0015	
+Average: 0.0	|  Standard deviation: 0.0001	|  Standard error: 0.0	|  Confidence interval: 0.0 +- 0.0	
 ===  BLOCK PROB STATISTICS  ===
-Average: 0.025	|  Standard deviation: 0.0026	|  Standard error: 0.0006	|  Confidence interval: 0.025 +- 0.0011	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 1; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1873	|  Standard deviation: 0.0033	|  Standard error: 0.0007	|  Confidence interval: 0.1873 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0167	|  Standard deviation: 0.0027	|  Standard error: 0.0006	|  Confidence interval: 0.0167 +- 0.0012	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 1; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1927	|  Standard deviation: 0.0024	|  Standard error: 0.0005	|  Confidence interval: 0.1927 +- 0.0011	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0121	|  Standard deviation: 0.0021	|  Standard error: 0.0005	|  Confidence interval: 0.0121 +- 0.0009	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 2; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.183	|  Standard deviation: 0.0023	|  Standard error: 0.0005	|  Confidence interval: 0.183 +- 0.001	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0242	|  Standard deviation: 0.0027	|  Standard error: 0.0006	|  Confidence interval: 0.0242 +- 0.0012	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 2; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1891	|  Standard deviation: 0.0024	|  Standard error: 0.0005	|  Confidence interval: 0.1891 +- 0.0011	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0174	|  Standard deviation: 0.0022	|  Standard error: 0.0005	|  Confidence interval: 0.0174 +- 0.0009	
-
-=======================================================
-
-No. of simulations: 20
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 2; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1911	|  Standard deviation: 0.0032	|  Standard error: 0.0007	|  Confidence interval: 0.1911 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0122	|  Standard deviation: 0.0016	|  Standard error: 0.0004	|  Confidence interval: 0.0122 +- 0.0007	
-
-=======================================================
-
-No. of simulations: 15
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 3; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1841	|  Standard deviation: 0.0027	|  Standard error: 0.0007	|  Confidence interval: 0.1841 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0245	|  Standard deviation: 0.0018	|  Standard error: 0.0005	|  Confidence interval: 0.0245 +- 0.0009	
-
-=======================================================
-
-No. of simulations: 15
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 3; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.189	|  Standard deviation: 0.0024	|  Standard error: 0.0006	|  Confidence interval: 0.189 +- 0.0012	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0181	|  Standard deviation: 0.0023	|  Standard error: 0.0006	|  Confidence interval: 0.0181 +- 0.0012	
-
-=======================================================
-
-No. of simulations: 15
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 3; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1918	|  Standard deviation: 0.0031	|  Standard error: 0.0008	|  Confidence interval: 0.1918 +- 0.0016	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0133	|  Standard deviation: 0.0021	|  Standard error: 0.0005	|  Confidence interval: 0.0133 +- 0.0011	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 4; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1842	|  Standard deviation: 0.004	|  Standard error: 0.0013	|  Confidence interval: 0.1842 +- 0.0025	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0236	|  Standard deviation: 0.0033	|  Standard error: 0.001	|  Confidence interval: 0.0236 +- 0.002	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 4; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1892	|  Standard deviation: 0.0037	|  Standard error: 0.0012	|  Confidence interval: 0.1892 +- 0.0023	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.017	|  Standard deviation: 0.0018	|  Standard error: 0.0006	|  Confidence interval: 0.017 +- 0.0011	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 5; L: 5; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1836	|  Standard deviation: 0.0023	|  Standard error: 0.0007	|  Confidence interval: 0.1836 +- 0.0014	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0251	|  Standard deviation: 0.0027	|  Standard error: 0.0009	|  Confidence interval: 0.0251 +- 0.0017	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 5; L: 6; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1897	|  Standard deviation: 0.003	|  Standard error: 0.001	|  Confidence interval: 0.1897 +- 0.0019	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.0167	|  Standard deviation: 0.0026	|  Standard error: 0.0008	|  Confidence interval: 0.0167 +- 0.0016	
-
-=======================================================
-
-No. of simulations: 10
-Simulation parameters:
->> lambda: 0.02222; gen_operators: 2; spec_operators: 5; L: 7; T: 432000
-
-
-===  DELAY PROB STATISTICS  ===
-Average: 0.1903	|  Standard deviation: 0.004	|  Standard error: 0.0013	|  Confidence interval: 0.1903 +- 0.0025	
-===  BLOCK PROB STATISTICS  ===
-Average: 0.013	|  Standard deviation: 0.002	|  Standard error: 0.0006	|  Confidence interval: 0.013 +- 0.0012	
+Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 0.0 +- 0.0	
+===  WAITING TIME STATISTICS (s) ===
+Average: 15.2335	|  Standard deviation: 41.0737	|  Standard error: 9.1844	|  Confidence interval: 15.2335 +- 15.1083	
+===  SPEC. DELAY STATISTICS ===
+Average: 0.0	|  Standard deviation: 0.0	|  Standard error: 0.0	|  Confidence interval: 0.0 +- 0.0	
 
 =======================================================
 

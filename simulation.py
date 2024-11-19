@@ -66,28 +66,24 @@ class Simulation:
                 if event.type == "arrival":                 # proccess "arrival" event in "general" system
                     #print(f'{round(self.time, 3)}:  \t {event.target_system} call arrived at system: {event.system}')
 
+                    self.general_system.arrival(event, self.events)
                     self.generate_next_arrival()
-                    next_departure = self.general_system.arrival(event)
-                    if next_departure:
-                        self.events.append(next_departure)  # append "departure" event if resources available
 
                 else:
                     #print(f'{round(self.time, 3)}:  \t {event.target_system} call exited system: {event.system}')
 
-                    next_arrival = self.general_system.departure(event)    # proccess "departure" event in "general" system
-                    if next_arrival:
-                        self.events.append(next_arrival)                    # append next "arrival" event
+                    self.general_system.departure(event, self.events)    # proccess "departure" event in "general" system
 
             elif event.curr_system == "specific":                # proccess "arrival" event in "specific" system
                 if event.type == "arrival":
                     #print(f'{round(self.time, 3)}:  \t {event.target_system} call arrived at system: {event.system}')
 
-                    next_departure = self.specific_system.arrival(event)
-                    if next_departure:
-                        self.events.append(next_departure)
-            else:
-                #print(f'{round(self.time, 3)}:  \t {event.target_system} call exited system: {event.system}')
-                self.specific_system.departure(event)       # proccess "departure" event in "specific" system
+                    self.specific_system.arrival(event, self.events)
+                else:
+                    #print(f'{round(self.time, 3)}:  \t {event.target_system} call exited system: {event.system}')
+                    #print(self.specific_system.waiting_queue)
+                    self.specific_system.departure(event, self.events)       # proccess "departure" event in "specific" system
+
 
             self.events.sort(key=lambda event: event.time)  # sort events by time
     
@@ -120,8 +116,7 @@ def plot_histogram(hist, n):
     pyplot.savefig('hists/histogram' + str(n) + '.png')
     #pyplot.show()
 
-if __name__ == "__main__":
-
+def main1():
     lambda_        = 80/3600
     gen_operators  = 100
     spec_operators = 100
@@ -129,22 +124,37 @@ if __name__ == "__main__":
     T              = 5*24*3600         
 
     for i in range(5):
-        #for j in range(5):
-            for k in range(10):
-                for l in range(10):    
-                    sim = Simulation(lambda_=lambda_, gen_operators=1+i, spec_operators=1, queue_length=k+1, T=T)
+        for j in range(5):
+            for k in range(5):
+                for l in range(30):    
+                    sim = Simulation(lambda_=lambda_, gen_operators=1+i, spec_operators=1+j, queue_length=1+k, T=T)
                     sim.run()
 
                     gen_metrics = sim.general_system.get_metrics()
                     spec_metrics = sim.specific_system.get_metrics()
 
-                    # store_simulation(sim, gen_metrics, spec_metrics)   # store simulation data in database
-       
-            print(f'Iteration {i} completed')
+                    store_simulation(sim, gen_metrics, spec_metrics)   # store simulation data in database
 
-            error = gen_metrics[6]
-            hist = generate_histogram(error)
-            print(hist)
-            plot_histogram(hist, i)
-            #print(f'Error: {error}')
+        print(f"Simulation {i+1} completed")
+
+def main2():
+    lambda_        = 80/3600
+    gen_operators  = 3
+    spec_operators = 3
+    queue_length   = 2
+    T              = 5*24*3600
+
+    sim = Simulation(lambda_=lambda_, gen_operators=gen_operators, spec_operators=spec_operators, queue_length=queue_length, T=T)
+    sim.run()
+
+    gen_metrics = sim.general_system.get_metrics()
+    spec_metrics = sim.specific_system.get_metrics()
+
+    print(f'>> {round(gen_metrics[0], 4)},  \t{round(gen_metrics[1], 4)},  \t{round(gen_metrics[2], 4)},  \t{round(gen_metrics[3], 4)},  \t{round(gen_metrics[4], 4)}')
+    print(f'>> {round(spec_metrics[0], 4)}, \t{round(spec_metrics[1], 4)}, \t{round(spec_metrics[2], 4)}, \t{round(spec_metrics[3], 4)}, \t{round(spec_metrics[4], 4)}')
+
+if __name__ == "__main__":
+
+    #main1()
+    main2()
 

@@ -3,7 +3,7 @@ from numpy import random as np_random
 
 class Event:
     def __init__(self, identifier, event_type, curr_system, target_system, time):
-        self.identifier            = identifier                 # event id
+        self.identifier    = identifier         # event id
         self.type          = event_type         # "arrival" or "departure"
         self.curr_system   = curr_system        # current system: "general" or "specific"
         self.target_system = target_system      # "general" or "specific"
@@ -54,7 +54,7 @@ class System:
         else:
             self.specific_time_intervals.append(s)
 
-    def arrival(self, event):
+    def arrival(self, event, event_timeline):
 
         self.received_calls += 1
         
@@ -66,16 +66,16 @@ class System:
             
             next_departure = event.time + s                     # generate next departure time
     
-            return Event(event.identifier, "departure", self.system_type, event.target_system, next_departure)
+            event_timeline.append(Event(event.identifier, "departure", self.system_type, event.target_system, next_departure))
 
         else: # Call is delayed or blocked
             if (self.queue_length > 0 and len(self.waiting_queue) < self.queue_length) or self.queue_length == -1:
                 self.delayed_calls += 1
-                self.waiting_queue.append(event)             
-
+                self.waiting_queue.append(event)
+                
                 if self.system_type == "general":                       # Predict waiting time
                     dmed = 0.3*60 + 0.7*120                             # Average service time
-                    pred_time = len(self.waiting_queue)*dmed        # dmed * number of calls in queue
+                    pred_time = len(self.waiting_queue)*dmed            # dmed * number of calls in queue
                     self.avg_waiting.append(pred_time)
 
             else:
@@ -83,21 +83,22 @@ class System:
 
             return None              
 
-    def departure(self, event):
+    def departure(self, event, event_timeline):
             
         if self.active_calls > 0:
             self.active_calls -= 1
 
-        if event.curr_system == "general" and event.target_system == "specific":  # generate arrival for specific system
+        if self.system_type == "general" and event.target_system == "specific":  # generate arrival for specific system
             
-            return Event(event.identifier, "arrival", "specific", event.target_system, event.time)
+            event_timeline.append(Event(event.identifier, "arrival", "specific", event.target_system, event.time))
 
+        #print(self.waiting_queue)
         if len(self.waiting_queue) > 0:                                         # check if there are waiting calls
 
             waiting_call = self.waiting_queue.pop(0)                            # pop first call from waiting calls
             self.waiting_time_intervals.append(event.time - waiting_call.time)  # store waiting time
 
-            return self.arrival(waiting_call)
+            self.arrival(waiting_call, event_timeline)
         
     def get_metrics(self):
 
@@ -112,7 +113,11 @@ class System:
 
         predicton_error = []
 
-        for i in range(len(self.waiting_time_intervals)):
+        i = len(self.waiting_time_intervals)
+        j = len(self.avg_waiting)
+        rng = i if i < j else j
+
+        for i in range(rng):
             predicton_error.append(round(abs(self.waiting_time_intervals[i] - self.avg_waiting[i]), 5))
 
         return prob_delay, prob_block, avg_delay, avg_waiting_time, avg_general_service_time, avg_specific_service_time, predicton_error

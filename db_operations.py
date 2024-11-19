@@ -72,7 +72,7 @@ def find_simulation(statistics, min_values, max_values, return_=False):
     cursor.execute(query, params)
     sims = cursor.fetchall()
 
-    # sort sims by gen_resources, spec_resources, L
+    # sort sims by gen_resources [2], spec_resources [3], L [4]
     sims = sorted(sims, key=lambda x: (x[2], x[3], x[4]))
 
     dif_sims = []
@@ -87,7 +87,7 @@ def find_simulation(statistics, min_values, max_values, return_=False):
 
         if different:
             dif_sims.append(sim)
-            print(f'gen_resources: {sim[2]}, spec_resources: {sim[3]}, L: {sim[4]} | ' + 
+            print(f'gen_op: {sim[2]}, spec_op: {sim[3]}, L: {sim[4]} | ' + 
               ' | '.join([f'{statistic}: {round(sim[index[statistic]], 5)}' for statistic in statistics]))
     
     if return_: return dif_sims
