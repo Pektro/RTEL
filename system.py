@@ -1,4 +1,5 @@
 import math
+import random
 from numpy import random as np_random
 
 class Event:
@@ -22,28 +23,33 @@ class Event:
 
         elif self.target_system == "specific" and self.curr_system == "general":
             while s < 30 or s > 120:
-                s = np_random.normal(60, 20)                         # N(60, 20)  [30, 120]
+                s = np_random.normal(60, 20)                       # N(60, 20)  [30, 120]
 
         else:
             while s < 60:
-                s = - math.log(np_random.random()) * 150            # - 2.5min * ln(u) ; u ~ U(0,1) [60, + inf]
+                s = - math.log(np_random.random()) * 150           # - 2.5min * ln(u) ; u ~ U(0,1) [60, + inf]
 
         return s
 
 class System:
 
-    def __init__(self, max_resources, queue_length, system_type):
+    def __init__(self, max_resources, queue_length, system_type, lambda_=None):
         self.max_resources = max_resources          # number of maximum resources
         self.queue_length  = queue_length           # length of the waiting queue
         self.system_type   = system_type            # "general" or "specific"
+        self.lambda_       = lambda_                # arrival rate
 
-        self.time_intervals = []                    # list of time intervals between arrivals
+        self.identifier    = 0                      # event id >> used in call generation
+
         self.general_time_intervals  = []           # list of time intervals between general event arrivals (empty for specific system)
         self.specific_time_intervals = []           # list of time intervals between specific event arrivals
+
+        self.call_history  = []                     # list of calls
+        self.waiting_queue = []                     # list of waiting calls
+
         self.waiting_time_intervals  = [0]          # list of time intervals between arrival and service
-        self.waiting_queue    = []                  # list of delayed calls
         self.prediction_times = []                  # waiting time predictions
-        self.call_history     = []                  # list of calls
+
         self.received_calls   = 0                   # number of received calls
         self.active_calls     = 0                   # number of active calls
         self.delayed_calls    = 0                   # number of delayed calls                         
@@ -51,17 +57,41 @@ class System:
 
     def store_interval(self, event, s):
         if event.target_system == "general":
-                self.general_time_intervals.append(s)
+            self.general_time_intervals.append(s)
         else:
             self.specific_time_intervals.append(s)
 
+
+    # Function to generate next arrival event >> Called when a new call arrives at general system
+    def generate_next_arrival(self, time, event_timeline):
+
+        # Generate proccess target system
+        u = random.uniform(0, 1)
+        if u < 0.3:
+            target_system = "general"
+        else:
+            target_system = "specific"
+
+        # Generate time interval
+        c = - math.log(random.uniform(0, 1)) / self.lambda_         # -1/lambda * ln(u) ; u ~ U(0,1)
+
+        next_arrival_time = time + c                                # generate next arrival time
+        event = Event(self.identifier, "arrival", "general", target_system, next_arrival_time)
+        event_timeline.append(event)          # add next arrival event
+        self.identifier += 1
+
+
+    # Function to proccess arrival event
     def arrival(self, event, event_timeline):
 
-        if event.identifier not in self.call_history:           # check if call is new
+        if event.identifier not in self.call_history:           # check if call is new >> prevent conflit with waiting calls
             self.call_history.append(event.identifier)          # store call identifier
             self.received_calls += 1                            # update number of received calls
+
+            if self.system_type == "general":                   # generate next arrival event
+                self.generate_next_arrival(event.time, event_timeline)
         
-        if self.active_calls < self.max_resources:             # check if there are resources available
+        if self.active_calls < self.max_resources:              # check if there are resources available
             
             self.active_calls += 1                              # update number of active calls
             s = event.get_duration()                            # get duration of call based on event properties
@@ -76,33 +106,34 @@ class System:
                 self.delayed_calls += 1
                 self.waiting_queue.append(event)
                 
-                if self.system_type == "general":                   # Predict waiting time
+                if self.system_type == "general":               # predict waiting time
 
                     avg = sum(self.waiting_time_intervals) / len(self.waiting_time_intervals)
                     self.prediction_times.append(avg*len(self.waiting_queue))
 
             else:
-                self.rejected_calls += 1                            # Update number of rejected calls  
+                self.rejected_calls += 1                        # update number of rejected calls  
 
-            return None              
 
+    # Function to proccess departure event
     def departure(self, event, event_timeline):
             
         if self.active_calls > 0:
             self.active_calls -= 1
 
-        if self.system_type == "general" and event.target_system == "specific":  # generate arrival for specific system
+        if self.system_type == "general" and event.target_system == "specific":     # generate arrival for specific system
             
             event_timeline.append(Event(event.identifier, "arrival", "specific", event.target_system, event.time))
 
-        #print(self.waiting_queue)
-        if len(self.waiting_queue) > 0:                                         # check if there are waiting calls
+        if len(self.waiting_queue) > 0:                                             # check if there are waiting calls
 
-            waiting_call = self.waiting_queue.pop(0)                            # pop first call from waiting calls
-            self.waiting_time_intervals.append(event.time - waiting_call.time)  # store waiting time
+            waiting_call = self.waiting_queue.pop(0)                                # pop first call from waiting calls
+            self.waiting_time_intervals.append(event.time - waiting_call.time)      # store waiting time >> current time - arrival time
 
             self.arrival(waiting_call, event_timeline)
         
+
+    # Function to get system metrics
     def get_metrics(self):
 
         prob_delay = self.delayed_calls  / self.received_calls
@@ -115,7 +146,6 @@ class System:
         avg_specific_service_time = sum(self.specific_time_intervals) / len(self.specific_time_intervals)
 
         prediction_error = []
-        prediction_error_relative = []
 
         i = len(self.waiting_time_intervals)
         j = len(self.prediction_times)
@@ -123,9 +153,17 @@ class System:
 
         for i in range(1, rng):
             abs_error = abs(self.waiting_time_intervals[i] - self.prediction_times[i-1])
-            rel_error = abs_error / self.waiting_time_intervals[i]
             prediction_error.append(round(abs_error, 5))
-            prediction_error_relative.append(round(rel_error, 5))
 
-        return prob_delay, prob_block, avg_delay, avg_waiting_time, avg_general_service_time, avg_specific_service_time, prediction_error, prediction_error_relative, self.waiting_time_intervals
+        return prob_delay, prob_block, avg_delay, avg_waiting_time, avg_general_service_time, avg_specific_service_time, prediction_error, self.waiting_time_intervals
+    
+    # prob_delay                 # [0]
+    # prob_block                 # [1]
+    # avg_delay                  # [2]
+    # avg_waiting_time           # [3]
+    # avg_general_service_time   # [4]
+    # avg_specific_service_time  # [5]
+    # prediction_error           # [6]
+    # waiting_time_intervals     # [7]
+
         

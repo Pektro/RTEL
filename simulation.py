@@ -1,7 +1,5 @@
-import math
-import random
 from matplotlib import pyplot
-from system import Event, System
+from system import System
 from db_operations import store_simulation
 
 class Simulation:
@@ -15,14 +13,10 @@ class Simulation:
         self.spec_operators = spec_operators
         self.queue_length   = queue_length 
 
-        self.identifier = 0                 # event id
-        self.gen_count  = 0
-        self.spec_count = 0
-
         self.events          = []           # list of events (timeline)
         self.time            = 0            # current time of simulation
 
-        self.general_system  = System(gen_operators, queue_length, "general")
+        self.general_system  = System(gen_operators, queue_length, "general", lambda_=lambda_)
         self.specific_system = System(spec_operators, -1, "specific")
 
     def __str__(self):
@@ -32,58 +26,34 @@ class Simulation:
     '''    LOGIC FUNCTIONS     '''
     ''''''''''''''''''''''''''''''
 
-    def generate_next_arrival(self):
-
-        # Generate proccess type
-        u = random.uniform(0, 1)
-        if u < 0.3:
-            target_system = "general"
-            self.gen_count += 1
-        else:
-            target_system = "specific"
-            self.spec_count += 1
-
-        # Generate time interval
-        c = - math.log(random.uniform(0, 1)) / self.lambda_         # -1/lambda * ln(u) ; u ~ U(0,1)
-
-        next_arrival_time = self.time + c                                # generate next arrival time
-        self.events.append(Event(self.identifier, "arrival", "general", target_system, next_arrival_time))          # add next arrival event
-        self.identifier += 1
-
     def run(self):
 
         # Generate first arrival
-        self.generate_next_arrival()
+        self.general_system.generate_next_arrival(self.time, self.events)
 
         # Run simulation
         while self.time < self.T:
 
-            event = self.events.pop(0)                      # get next event
+            event = self.events.pop(0)                  # get next event
             self.time = event.time
-            #print(event)
 
             if event.curr_system == "general":
-                if event.type == "arrival":                 # proccess "arrival" event in "general" system
-                    #print(f'{round(self.time, 3)}:  \t {event.target_system} call arrived at system: {event.system}')
-
+                if event.type == "arrival":             # proccess "arrival" event in "general" system
                     self.general_system.arrival(event, self.events)
-                    self.generate_next_arrival()
-
-                else:
-                    #print(f'{round(self.time, 3)}:  \t {event.target_system} call exited system: {event.system}')
-
-                    self.general_system.departure(event, self.events)    # proccess "departure" event in "general" system
-
-            elif event.curr_system == "specific":                # proccess "arrival" event in "specific" system
-                if event.type == "arrival":
                     #print(f'{round(self.time, 3)}:  \t {event.target_system} call arrived at system: {event.system}')
 
-                    self.specific_system.arrival(event, self.events)
                 else:
+                    self.general_system.departure(event, self.events)       # proccess "departure" event in "general" system
                     #print(f'{round(self.time, 3)}:  \t {event.target_system} call exited system: {event.system}')
-                    #print(self.specific_system.waiting_queue)
-                    self.specific_system.departure(event, self.events)       # proccess "departure" event in "specific" system
 
+            elif event.curr_system == "specific":       # proccess "arrival" event in "specific" system
+                if event.type == "arrival":
+                    self.specific_system.arrival(event, self.events)
+                    #print(f'{round(self.time, 3)}:  \t {event.target_system} call arrived at system: {event.system}')
+
+                else:
+                    self.specific_system.departure(event, self.events)      # proccess "departure" event in "specific" system
+                    #print(f'{round(self.time, 3)}:  \t {event.target_system} call exited system: {event.system}')
 
             self.events.sort(key=lambda event: event.time)  # sort events by time
     
@@ -117,35 +87,36 @@ def plot_histogram(hist, n):
     pyplot.savefig('hists/histogram' + str(n) + '.png')
     pyplot.show()
 
+
+
+# Function to feed the database with simulation data
 def main1():
     lambda_        = 80/3600
-    gen_operators  = 100
-    spec_operators = 100
-    queue_length   = 100
     T              = 5*24*3600         
 
-    # for i in range(5):
-    #     for j in range(5):
-    #         for k in range(5):
-    for l in range(30):    
-        sim = Simulation(lambda_=lambda_, gen_operators=4, spec_operators=6, queue_length=2, T=T)
-        sim.run()
+    for i in range(5):
+        for j in range(5):
+            for k in range(5):
+                for l in range(30):    
+                    sim = Simulation(lambda_=lambda_, gen_operators=1+i, spec_operators=1+j, queue_length=1+k, T=T)
+                    sim.run()
 
-        gen_metrics = sim.general_system.get_metrics()
-        spec_metrics = sim.specific_system.get_metrics()
+                    gen_metrics = sim.general_system.get_metrics()
+                    spec_metrics = sim.specific_system.get_metrics()
 
-        store_simulation(sim, gen_metrics, spec_metrics)   # store simulation data in database
-        print(f">> Simulation {l+1} completed")
-        # print(f">> Iteration {i+1} completed <<")
+                    store_simulation(sim, gen_metrics, spec_metrics)   # store simulation data in database
+                    #print(f">> Simulation {l+1} completed")
+    # print(f">> Iteration {i+1} completed <<")
 
+
+# Function to test simulation with different arrival rates and get histograms
 def main2():
-
     for i in range(9):
         lambda_        = (60+5*i)/3600
         gen_operators  = 4
         spec_operators = 5
         queue_length   = 2
-        T              = 10*24*3600
+        T              = 5*24*3600
 
         sim = Simulation(lambda_=lambda_, gen_operators=gen_operators, spec_operators=spec_operators, queue_length=queue_length, T=T)
         sim.run()
@@ -154,9 +125,7 @@ def main2():
         spec_metrics = sim.specific_system.get_metrics()
 
         print("\nLambda: ", lambda_*3600)
-        print("Total average delay: ", gen_metrics[2] + spec_metrics[2] + gen_metrics[5])
-
-    
+        print("Total average delay: ", gen_metrics[2] + spec_metrics[2] + gen_metrics[5])    
 
     # error = gen_metrics[6]
     # avg_error = sum(error) / len(error)

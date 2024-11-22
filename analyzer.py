@@ -1,5 +1,5 @@
 import math
-from db_operations import find_simulation, get_simulations_metrics, clear_db, db_length
+from db_operations import find_simulation, get_simulations_metrics, clear_db
 
 ''''''''''''''''''''''''''''''''''''
 '''     AUXILIARY FUNCTIONS      '''
@@ -62,6 +62,7 @@ def export_data(sim, data):
 '''        MAIN FUNCTION         '''
 ''''''''''''''''''''''''''''''''''''
 
+# Function to find simulations with specific statistics, compute confidence intervals and store/print values
 def main1():
     dif_sims = find_simulation(['g_prob_block', 'g_prob_delay', 'g_avg_waiting_time', 's_avg_delay'], [0, 0, 0, 0], [0.02, 0.3, 30, 30], True)
 
@@ -82,7 +83,7 @@ def main1():
         condition1 = delay_stat[0]      + delay_stat[3]      < 0.30     # Pd < 0.30
         condition2 = block_stat[0]      + block_stat[3]      < 0.02     # Pb = 0.02
         condition3 = waiting_stat[0]    + waiting_stat[3]    < 30       # Avg waiting time < 30
-        condition4 = spec_delay_stat[0] + spec_delay_stat[3] < 90       # Avg spec delay < 30
+        condition4 = spec_delay_stat[0] + spec_delay_stat[3] < 90       # Avg delay < 90
 
         if condition1 and condition2 and condition3 and condition4:
             print(f'\n=======================================\n')
@@ -92,6 +93,7 @@ def main1():
             print(f'Avg waiting time: {round(waiting_stat[0], 2)} +- {round(waiting_stat[3], 2)}')
             print(f'Avg spec delay: {round(spec_delay_stat[0], 2)} +- {round(spec_delay_stat[3], 2)}')
 
+# Function to compute confidence intervals for specific simulation parameters
 def main2(gen_op, spec_op, L):
 
     sims_metrics = get_simulations_metrics(gen_op, spec_op, L)
@@ -107,13 +109,8 @@ def main2(gen_op, spec_op, L):
     sim_param = [0, 0.02222, gen_op, spec_op, L, 0]
 
     data = [len(sims_metrics), prob_delay, prob_block, avg_waiting, avg_delay]
-    delay_stat, block_stat, waiting_stat, spec_delay_stat = export_data(sim_param, data)       # average_prob [0], standard_dev [1], standard_error [2], confidence_interval [3]
-    condition1 = delay_stat[0]      + delay_stat[3]      < 0.30     # Pd < 0.30
-    condition2 = block_stat[0]      + block_stat[3]      < 0.02     # Pb = 0.02
-    condition3 = waiting_stat[0]    + waiting_stat[3]    < 30       # Avg waiting time < 30
-    condition4 = spec_delay_stat[0] + spec_delay_stat[3] < 30       # Avg spec delay < 30
+    delay_stat, block_stat, waiting_stat, spec_delay_stat = export_data(sim_param, data)       # average [0], standard_dev [1], standard_error [2], confidence_interval [3]
 
-    # if condition1 and condition2 and condition3 and condition4:
     print(f'\n=======================================\n')
     print(f'gen_resources: {gen_op}, spec_resources: {spec_op}, L: {L}')
     print(f'Block prob: {round(block_stat[0]*100, 2)} +- {round(block_stat[3]*100, 2)}')
@@ -124,4 +121,5 @@ def main2(gen_op, spec_op, L):
 if __name__ == '__main__':
     main1()
     #main2(4,4,2)
+    #clear_db()
     

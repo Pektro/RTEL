@@ -118,10 +118,6 @@ def clear_db():
     conn.commit()
     print('Database cleared')
 
-def db_length():
-    cursor.execute('SELECT COUNT(*) FROM simulations')
-    return cursor.fetchone()[0]
-
 
 
 
