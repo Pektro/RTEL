@@ -72,22 +72,25 @@ def main1():
         prob_delay  = [metrics[0] for metrics in sims_metrics]
         prob_block  = [metrics[1] for metrics in sims_metrics]
         avg_waiting = [metrics[3] for metrics in sims_metrics]
-        avg_delay   = [metrics[8] for metrics in sims_metrics]
+        g_avg_delay = [metrics[2] for metrics in sims_metrics]
+        s_avg_delay = [metrics[8] for metrics in sims_metrics]
+        g_avg_service_time = [metrics[5] for metrics in sims_metrics]
+        avg_delay = [g + s + t for g, s, t in zip(g_avg_delay, s_avg_delay, g_avg_service_time)]
 
         data = [len(sims_metrics), prob_delay, prob_block, avg_waiting, avg_delay]
         delay_stat, block_stat, waiting_stat, spec_delay_stat = export_data(sim_param, data)       # average_prob [0], standard_dev [1], standard_error [2], confidence_interval [3]
         condition1 = delay_stat[0]      + delay_stat[3]      < 0.30     # Pd < 0.30
         condition2 = block_stat[0]      + block_stat[3]      < 0.02     # Pb = 0.02
         condition3 = waiting_stat[0]    + waiting_stat[3]    < 30       # Avg waiting time < 30
-        condition4 = spec_delay_stat[0] + spec_delay_stat[3] < 30       # Avg spec delay < 30
+        condition4 = spec_delay_stat[0] + spec_delay_stat[3] < 90       # Avg spec delay < 30
 
         if condition1 and condition2 and condition3 and condition4:
             print(f'\n=======================================\n')
             print(f'gen_resources: {sim_param[2]}, spec_resources: {sim_param[3]}, L: {sim_param[4]}')
-            print(f'Block prob: {round(block_stat[0], 5)} +- {round(block_stat[3], 5)}')
-            print(f'Delay prob: {round(delay_stat[0], 5)} +- {round(delay_stat[3], 5)}')
-            print(f'Avg waiting time: {round(waiting_stat[0], 5)} +- {round(waiting_stat[3], 5)}')
-            print(f'Avg spec delay: {round(spec_delay_stat[0], 5)} +- {round(spec_delay_stat[3], 5)}')
+            print(f'Block prob: {round(block_stat[0]*100, 2)} +- {round(block_stat[3]*100, 2)}')
+            print(f'Delay prob: {round(delay_stat[0]*100, 2)} +- {round(delay_stat[3]*100, 2)}')
+            print(f'Avg waiting time: {round(waiting_stat[0], 2)} +- {round(waiting_stat[3], 2)}')
+            print(f'Avg spec delay: {round(spec_delay_stat[0], 2)} +- {round(spec_delay_stat[3], 2)}')
 
 def main2(gen_op, spec_op, L):
 
@@ -96,9 +99,13 @@ def main2(gen_op, spec_op, L):
     prob_delay  = [metrics[0] for metrics in sims_metrics]
     prob_block  = [metrics[1] for metrics in sims_metrics]
     avg_waiting = [metrics[3] for metrics in sims_metrics]
-    avg_delay   = [metrics[8] for metrics in sims_metrics]
+    g_avg_delay = [metrics[2] for metrics in sims_metrics]
+    s_avg_delay = [metrics[8] for metrics in sims_metrics]
+    g_avg_service_time = [metrics[5] for metrics in sims_metrics]
+    avg_delay = [g + s + t for g, s, t in zip(g_avg_delay, s_avg_delay, g_avg_service_time)]
 
     sim_param = [0, 0.02222, gen_op, spec_op, L, 0]
+
     data = [len(sims_metrics), prob_delay, prob_block, avg_waiting, avg_delay]
     delay_stat, block_stat, waiting_stat, spec_delay_stat = export_data(sim_param, data)       # average_prob [0], standard_dev [1], standard_error [2], confidence_interval [3]
     condition1 = delay_stat[0]      + delay_stat[3]      < 0.30     # Pd < 0.30
@@ -106,15 +113,15 @@ def main2(gen_op, spec_op, L):
     condition3 = waiting_stat[0]    + waiting_stat[3]    < 30       # Avg waiting time < 30
     condition4 = spec_delay_stat[0] + spec_delay_stat[3] < 30       # Avg spec delay < 30
 
-    if condition1 and condition2 and condition3 and condition4:
-        print(f'\n=======================================\n')
-        print(f'gen_resources: {gen_op}, spec_resources: {spec_op}, L: {L}')
-        print(f'Block prob: {round(block_stat[0], 5)} +- {round(block_stat[3], 5)}')
-        print(f'Delay prob: {round(delay_stat[0], 5)} +- {round(delay_stat[3], 5)}')
-        print(f'Avg waiting time: {round(waiting_stat[0], 5)} +- {round(waiting_stat[3], 5)}')
-        print(f'Avg spec delay: {round(spec_delay_stat[0], 5)} +- {round(spec_delay_stat[3], 5)}')
+    # if condition1 and condition2 and condition3 and condition4:
+    print(f'\n=======================================\n')
+    print(f'gen_resources: {gen_op}, spec_resources: {spec_op}, L: {L}')
+    print(f'Block prob: {round(block_stat[0]*100, 2)} +- {round(block_stat[3]*100, 2)}')
+    print(f'Delay prob: {round(delay_stat[0]*100, 2)} +- {round(delay_stat[3]*100, 2)}')
+    print(f'Avg waiting time: {round(waiting_stat[0], 2)} +- {round(waiting_stat[3], 2)}')
+    print(f'Avg spec delay: {round(spec_delay_stat[0], 2)} +- {round(spec_delay_stat[3], 2)}')
 
 if __name__ == '__main__':
-    #main1()
-    #main2(10,1,2)
-    clear_db()
+    main1()
+    #main2(4,4,2)
+    

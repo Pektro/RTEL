@@ -40,13 +40,14 @@ class System:
         self.time_intervals = []                    # list of time intervals between arrivals
         self.general_time_intervals  = []           # list of time intervals between general event arrivals (empty for specific system)
         self.specific_time_intervals = []           # list of time intervals between specific event arrivals
-        self.waiting_time_intervals  = []           # list of time intervals between arrival and service
-        self.waiting_queue  = []                    # list of delayed calls
-        self.avg_waiting    = []                    # average waiting time predictions
-        self.received_calls = 0                     # number of received calls
-        self.active_calls   = 0                     # number of active calls
-        self.delayed_calls  = 0                     # number of delayed calls                         
-        self.rejected_calls = 0                     # number of rejected calls
+        self.waiting_time_intervals  = [0]          # list of time intervals between arrival and service
+        self.waiting_queue    = []                  # list of delayed calls
+        self.prediction_times = []                  # waiting time predictions
+        self.call_history     = []                  # list of calls
+        self.received_calls   = 0                   # number of received calls
+        self.active_calls     = 0                   # number of active calls
+        self.delayed_calls    = 0                   # number of delayed calls                         
+        self.rejected_calls   = 0                   # number of rejected calls
 
     def store_interval(self, event, s):
         if event.target_system == "general":
@@ -56,9 +57,11 @@ class System:
 
     def arrival(self, event, event_timeline):
 
-        self.received_calls += 1
+        if event.identifier not in self.call_history:           # check if call is new
+            self.call_history.append(event.identifier)          # store call identifier
+            self.received_calls += 1                            # update number of received calls
         
-        if self.active_calls <= self.max_resources:             # check if there are resources available
+        if self.active_calls < self.max_resources:             # check if there are resources available
             
             self.active_calls += 1                              # update number of active calls
             s = event.get_duration()                            # get duration of call based on event properties
@@ -73,13 +76,13 @@ class System:
                 self.delayed_calls += 1
                 self.waiting_queue.append(event)
                 
-                if self.system_type == "general":                       # Predict waiting time
-                    dmed = 0.3*60 + 0.7*120                             # Average service time
-                    pred_time = len(self.waiting_queue)*dmed            # dmed * number of calls in queue
-                    self.avg_waiting.append(pred_time)
+                if self.system_type == "general":                   # Predict waiting time
+
+                    avg = sum(self.waiting_time_intervals) / len(self.waiting_time_intervals)
+                    self.prediction_times.append(avg*len(self.waiting_queue))
 
             else:
-                self.rejected_calls += 1                            # update number of rejected calls  
+                self.rejected_calls += 1                            # Update number of rejected calls  
 
             return None              
 
@@ -106,19 +109,23 @@ class System:
         prob_block = self.rejected_calls / self.received_calls
 
         avg_delay        = sum(self.waiting_time_intervals) / self.received_calls
-        avg_waiting_time = sum(self.waiting_time_intervals) / len(self.waiting_time_intervals) if len(self.waiting_time_intervals) > 0 else 0
+        avg_waiting_time = sum(self.waiting_time_intervals[1:]) / (len(self.waiting_time_intervals) - 1) if len(self.waiting_time_intervals) > 1 else 0
         
         avg_general_service_time  = sum(self.general_time_intervals) / len(self.general_time_intervals) if len(self.general_time_intervals) > 0 else 0
         avg_specific_service_time = sum(self.specific_time_intervals) / len(self.specific_time_intervals)
 
-        predicton_error = []
+        prediction_error = []
+        prediction_error_relative = []
 
         i = len(self.waiting_time_intervals)
-        j = len(self.avg_waiting)
+        j = len(self.prediction_times)
         rng = i if i < j else j
 
-        for i in range(rng):
-            predicton_error.append(round(abs(self.waiting_time_intervals[i] - self.avg_waiting[i]), 5))
+        for i in range(1, rng):
+            abs_error = abs(self.waiting_time_intervals[i] - self.prediction_times[i-1])
+            rel_error = abs_error / self.waiting_time_intervals[i]
+            prediction_error.append(round(abs_error, 5))
+            prediction_error_relative.append(round(rel_error, 5))
 
-        return prob_delay, prob_block, avg_delay, avg_waiting_time, avg_general_service_time, avg_specific_service_time, predicton_error
+        return prob_delay, prob_block, avg_delay, avg_waiting_time, avg_general_service_time, avg_specific_service_time, prediction_error, prediction_error_relative, self.waiting_time_intervals
         
