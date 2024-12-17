@@ -1,5 +1,5 @@
 from mininet.net import Mininet
-from mininet.node import OVSController
+from mininet.node import Ryu
 from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 from mininet.topo import Topo
@@ -7,6 +7,7 @@ from mininet.topo import Topo
 class StarTopo(Topo):
     def build(self):
         # Add a central switch
+    
         switch = self.addSwitch('s1')
         
         # Add 6 hosts and connect them to the switch
@@ -68,7 +69,7 @@ def run():
 
     # Create the network
     topo = SnowFlakeTopo()
-    net = Mininet(topo=topo, controller=OVSController)
+    net = Mininet(topo=topo, controller=Ryu)
     net.start()
 
     CLI(net)
@@ -77,23 +78,15 @@ def run():
     input(">> ")
     print("\nIsolating branch 1 from the main network...")
 
-    net.configLinkStatus('s1', 's2', 'down')
+    net.configLinkStatus('s0', 's1', 'down')
 
     CLI(net)
 
     print("\nWhat is your next intent: ")
     input(">> ")
-    print("\nIsolating branch 2 and returning branch 1 to the main network...")
+    print("\nReturning branch 1 to the main network and restricting traffic between hosts 10 and 11...")
     
-    net.configLinkStatus('s1', 's2', 'up')
-    net.configLinkStatus('s1', 's3', 'down')
-
-    CLI(net)
-
-    print("\nWhat is your next intent: ")
-    input(">> ")
-    print("\nRestricting traffic between hosts 10 and 11...")
-    
+    net.configLinkStatus('s0', 's1', 'up')
     host10 = net.get('h10')
     host11 = net.get('h11')
     
@@ -101,7 +94,7 @@ def run():
     host10.cmd(f'iptables -A INPUT -j DROP')
 
     host11.cmd(f'iptables -A INPUT -s {host10.IP()} -j ACCEPT')
-    host11.cmd(f'iptables -A INPUT -j DROP')
+    host11.cmd(f'iptables -A INPUT -j DROP')   
 
     CLI(net)
 
