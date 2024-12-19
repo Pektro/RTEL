@@ -62,13 +62,13 @@ def process_prompt(prompt):
             print("Topology created successfully.")
         except Exception as e:
             print(f"Failed to create topology: {e}")
-    elif "isolate branch 1" in prompt.lower():
-        print("Isolating branch 1 from the rest of the network...")
+    elif "isolate" in prompt.lower():
+        print("Isolating branch hosts from the rest of the network...")
         send_intent("isolate", "h10", "h11")
-    elif "reconnect branch 1" in prompt.lower() and "hosts 10 and 11" in prompt.lower():
-        print("Reconnecting branch 1 and allowing hosts 10 and 11 to communicate only with each other...")
+    elif "reconnect" in prompt.lower() and "hosts 10 and 11" in prompt.lower():
+        print("Reconnecting hosts and allowing them to communicate the other hosts...")
         send_intent("allow", "h10", "h11")
-    elif "shut down the network" in prompt.lower():
+    elif "shut down" in prompt.lower():
         print("Shutting down the network...")
         try:
             os.system("pkill -f 'sudo mn --custom snowflake.py'")
