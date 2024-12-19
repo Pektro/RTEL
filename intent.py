@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 # Define a mapping of host names to MAC addresses
 HOST_MAC_MAPPING = {
@@ -32,7 +33,7 @@ def send_intent(intent_type, src_host=None, dst_host=None, bw=None):
     src_mac = HOST_MAC_MAPPING.get(src_host) if src_host else None
     dst_mac = HOST_MAC_MAPPING.get(dst_host) if dst_host else None
 
-    if (intent_type in ['allow', 'isolate', 'limit_bw']) and (not src_mac or not dst_mac):
+    if (intent_type in ['allow', 'isolate']) and (not src_mac or not dst_mac):
         print(f"Error: Invalid host name(s). Please check your input ({src_host}, {dst_host}).")
         return
 
@@ -41,10 +42,6 @@ def send_intent(intent_type, src_host=None, dst_host=None, bw=None):
         "src": src_mac,
         "dst": dst_mac,
     }
-
-    # Add bandwidth if specified for limit_bw intent
-    if intent_type == 'limit_bw' and bw:
-        payload["bw"] = bw
 
     try:
         response = requests.post(url, headers=headers, data=json.dumps(payload))
@@ -57,6 +54,30 @@ def send_intent(intent_type, src_host=None, dst_host=None, bw=None):
     except Exception as e:
         print("Failed to send intent:", str(e))
 
+def process_prompt(prompt):
+    if "snowflake topology" in prompt.lower():
+        print("Creating a Snowflake topology with 7 switches and 12 hosts...")
+        try:
+            os.system("gnome-terminal -- bash -c 'sudo mn --custom snowflake.py --topo mytopo --controller=remote,ip=127.0.0.1 --switch=ovsk; exec bash' > /tmp/snowflake_terminal.log")
+            print("Topology created successfully.")
+        except Exception as e:
+            print(f"Failed to create topology: {e}")
+    elif "isolate branch 1" in prompt.lower():
+        print("Isolating branch 1 from the rest of the network...")
+        send_intent("isolate", "h10", "h11")
+    elif "reconnect branch 1" in prompt.lower() and "hosts 10 and 11" in prompt.lower():
+        print("Reconnecting branch 1 and allowing hosts 10 and 11 to communicate only with each other...")
+        send_intent("allow", "h10", "h11")
+    elif "shut down the network" in prompt.lower():
+        print("Shutting down the network...")
+        try:
+            os.system("pkill -f 'sudo mn --custom snowflake.py'")
+            print("Closed the Snowflake topology terminal.")
+        except Exception as e:
+            print(f"Failed to shut down the network: {e}")
+        print("Network shut down successfully.")
+    else:
+        print("Unrecognized command. Please try again.")
 
 def main():
     print("#########################################")
@@ -68,55 +89,11 @@ def main():
     print("Type 'exit' anytime to quit.\n")
 
     while True:
-        print("Available Intent Types:")
-        print("1. Allow Communication")
-        print("2. Isolate Hosts")
-        print("3. Prioritize HTTP Traffic")
-        print("4. Limit Bandwidth")
-        intent_choice = input("Enter choice (1, 2, 3, or 4): ").strip()
-
-        if intent_choice.lower() == 'exit':
+        prompt = input("Enter a command: ").strip()
+        if prompt.lower() == 'exit':
             print("Exiting...")
             break
-
-        if intent_choice == '1':
-            intent_type = 'allow'
-        elif intent_choice == '2':
-            intent_type = 'isolate'
-        elif intent_choice == '3':
-            intent_type = 'priority_http'
-        elif intent_choice == '4':
-            intent_type = 'limit_bw'
-        else:
-            print("Invalid choice. Try again.")
-            continue
-
-        src_host, dst_host, bw = None, None, None
-
-        if intent_type in ['allow', 'isolate', 'limit_bw']:
-            src_host = input("Enter Source Host (e.g., h1): ").strip()
-            if src_host.lower() == 'exit':
-                break
-
-            dst_host = input("Enter Destination Host (e.g., h5): ").strip()
-            if dst_host.lower() == 'exit':
-                break
-
-        if intent_type == 'limit_bw':
-            bw = input("Enter Bandwidth Limit (e.g., 1Mbps): ").strip()
-            if bw.lower() == 'exit':
-                break
-
-        # Send intent
-        if intent_type in ['allow', 'isolate', 'limit_bw']:
-            print(f"\nSending '{intent_type}' intent from {src_host} to {dst_host}...")
-            send_intent(intent_type, src_host, dst_host, bw)
-        elif intent_type == 'priority_http':
-            print("\nSending 'priority_http' intent...")
-            send_intent(intent_type)
-
-        print("\n" + "-" * 50 + "\n")
-
+        process_prompt(prompt)
 
 if __name__ == "__main__":
     main()
